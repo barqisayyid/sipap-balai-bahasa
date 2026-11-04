@@ -7,6 +7,7 @@ import {
   Mail,
   MessageCircle,
   MoreVertical,
+  Send,
   ShieldAlert,
   Trash2,
   UserCheck,
@@ -17,6 +18,7 @@ import { LABEL_ROLE } from "@/lib/types";
 import {
   alihkanStatusPengguna,
   hapusPengguna,
+  kirimUlangInfoWA,
 } from "@/lib/actions/pengguna";
 
 const WARNA_ROLE: Record<
@@ -61,6 +63,7 @@ export function PenggunaCard({
   const [konfirmasiHapus, setKonfirmasiHapus] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [pesanError, setPesanError] = useState<string | null>(null);
+  const [pesanSukses, setPesanSukses] = useState<string | null>(null);
 
   const isDiriSendiri = pengguna.id === currentUserId;
   const inisial = pengguna.fullName
@@ -74,6 +77,7 @@ export function PenggunaCard({
 
   function handleToggleStatus() {
     setPesanError(null);
+    setPesanSukses(null);
     startTransition(async () => {
       const res = await alihkanStatusPengguna(
         pengguna.id,
@@ -87,8 +91,23 @@ export function PenggunaCard({
     });
   }
 
+  function handleKirimInfoWA() {
+    setPesanError(null);
+    setPesanSukses(null);
+    startTransition(async () => {
+      const res = await kirimUlangInfoWA(pengguna.id);
+      if (res.ok) {
+        setPesanSukses("Notifikasi WhatsApp berhasil dikirim ke nomor pengguna!");
+        setBukaMenu(false);
+      } else {
+        setPesanError(res.message ?? "Gagal mengirim pesan WhatsApp");
+      }
+    });
+  }
+
   function handleHapus() {
     setPesanError(null);
+    setPesanSukses(null);
     startTransition(async () => {
       const res = await hapusPengguna(pengguna.id);
       if (!res.ok && res.error) {
@@ -111,6 +130,12 @@ export function PenggunaCard({
       {pesanError && (
         <div className="mb-3 rounded-xl border border-red-200 bg-red-50 p-2.5 text-xs font-semibold text-red-600">
           {pesanError}
+        </div>
+      )}
+
+      {pesanSukses && (
+        <div className="mb-3 rounded-xl border border-emerald-200 bg-emerald-50 p-2.5 text-xs font-semibold text-emerald-700">
+          {pesanSukses}
         </div>
       )}
 
@@ -174,7 +199,7 @@ export function PenggunaCard({
                 className="fixed inset-0 z-20"
                 onClick={() => setBukaMenu(false)}
               />
-              <div className="absolute right-0 top-9 z-30 w-44 rounded-2xl border border-slate-100 bg-white py-1.5 shadow-xl">
+              <div className="absolute right-0 top-9 z-30 w-48 rounded-2xl border border-slate-100 bg-white py-1.5 shadow-xl">
                 <Link
                   href={`/admin/pengguna/${pengguna.id}`}
                   onClick={() => setBukaMenu(false)}
@@ -183,6 +208,16 @@ export function PenggunaCard({
                   <Edit3 className="h-4 w-4 text-slate-400" />
                   Ubah Data
                 </Link>
+
+                <button
+                  type="button"
+                  disabled={isPending}
+                  onClick={handleKirimInfoWA}
+                  className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-[13px] font-semibold text-brand-primary hover:bg-brand-mint/40 disabled:opacity-50"
+                >
+                  <Send className="h-4 w-4 text-brand-primary" />
+                  Kirim Info ke WA
+                </button>
 
                 {!isDiriSendiri && (
                   <button

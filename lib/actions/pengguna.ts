@@ -3,9 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getProfil } from "@/lib/auth";
-import type { Role } from "@/lib/types";
+import { LABEL_ROLE, type Role } from "@/lib/types";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { normalisasiNomor } from "@/lib/fonnte";
+import { normalisasiNomor, kirimWA } from "@/lib/fonnte";
+import { pesanAkunBaru } from "@/lib/notif/pesan";
 
 export interface FormPenggunaState {
   errors?: Record<string, string>;
@@ -105,6 +106,19 @@ export async function simpanPenggunaBaru(
     return {
       errors: { form: `Gagal menyimpan profil: ${profileError.message}` },
     };
+  }
+
+  // 3. Kirim notifikasi selamat datang & info kredensial via WhatsApp
+  try {
+    const pesan = pesanAkunBaru({
+      nama: fullName,
+      email,
+      labelRole: LABEL_ROLE[role] ?? role,
+      password,
+    });
+    await kirimWA(phone!, pesan);
+  } catch (errWA) {
+    console.error("[notif-akun-baru]", errWA);
   }
 
   revalidatePath("/admin/pengguna");
@@ -290,4 +304,40 @@ export async function alihkanStatusPengguna(
 
   revalidatePath("/admin/pengguna");
   return { ok: true };
+}
+
+/** Kirim ulang info akun pengguna via WhatsApp */
+export async function kirimUlangInfoWA(
+  id: string,
+): Promise<{ ok: boolean; message?: string }> {
+  const adminCurrent = await getProfil();
+  if (!adminCurrent || adminCurrent.role !== "superadmin") {
+    return { ok: false, message: "Akses ditolak." };
+  }
+
+  const admin = createAdminClient();
+  const { data: p } = await admin
+    .from("profiles")
+    .select("full_name, phone_number, role")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (!p) return { ok: false, message: "Profil tidak ditemukan." };
+
+  const { data: authData } = await admin.auth.admin.getUserById(id);
+  const email = authData?.user?.email ?? "-";
+
+  const pesan = pesanAkunBaru({
+    nama: p.full_name,
+    email,
+    labelRole: LABEL_ROLE[p.role as Role] ?? p.role,
+  });
+
+  const res = await kirimWA(p.phone_number, pesan);
+  return {
+    ok: res.ok,
+    message: res.ok
+      ? "Notifikasi WhatsApp berhasil dikirim!"
+      : res.alasan ?? "Gagal mengirim WhatsApp",
+  };
 }

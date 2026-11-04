@@ -21,10 +21,13 @@ export type TipeNotif =
   | "ESKALASI_PEMANTAU"
   | "ESKALASI_ADMIN";
 
+export type RolePenerima = "pimpinan" | "pemantau" | "superadmin" | "operator";
+
 export interface Penerima {
   id: string;
   nama: string;
   nomor: string;
+  role?: RolePenerima;
 }
 
 export interface RencanaNotif {
@@ -44,12 +47,12 @@ const tidur = (ms: number) => new Promise((r) => setTimeout(r, ms));
 // ---------- Pengambilan data ----------
 
 export async function ambilPenerima(
-  role: "pimpinan" | "pemantau" | "superadmin",
+  role: RolePenerima,
 ): Promise<Penerima[]> {
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("profiles")
-    .select("id, full_name, phone_number")
+    .select("id, full_name, phone_number, role")
     .eq("role", role)
     .eq("is_active", true);
   if (error) throw new Error(`Database: ${error.message}`);
@@ -60,12 +63,19 @@ export async function ambilPenerima(
       console.warn(`[notif] Nomor ${p.full_name} tidak valid, dilewati`);
       return [];
     }
-    return [{ id: p.id as string, nama: p.full_name as string, nomor }];
+    return [
+      {
+        id: p.id as string,
+        nama: p.full_name as string,
+        nomor,
+        role: (p.role as RolePenerima) ?? role,
+      },
+    ];
   });
 }
 
 const KOLOM =
-  "id, perihal, pengirim, lokasi, link_maps, waktu_mulai, waktu_selesai, pakaian, pendamping, status, quick_token, created_at";
+  "id, perihal, pengirim, lokasi, link_maps, waktu_mulai, waktu_selesai, pakaian, pendamping, catatan, status, quick_token, created_at";
 
 interface BarisAgenda {
   id: number;
@@ -77,6 +87,7 @@ interface BarisAgenda {
   waktu_selesai: string;
   pakaian: string | null;
   pendamping: string | null;
+  catatan: string | null;
   status: AgendaNotif["status"];
   quick_token: string;
   created_at: string;
@@ -92,6 +103,7 @@ const petakan = (r: BarisAgenda): AgendaNotif => ({
   waktuSelesai: r.waktu_selesai,
   pakaian: r.pakaian,
   pendamping: r.pendamping,
+  catatan: r.catatan,
   status: r.status,
   quickToken: r.quick_token,
   dibuatPada: r.created_at,

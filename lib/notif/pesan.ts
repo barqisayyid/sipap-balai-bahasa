@@ -10,6 +10,7 @@ export interface AgendaNotif {
   waktuSelesai: string;
   pakaian: string | null;
   pendamping: string | null;
+  catatan?: string | null;
   status: "Menunggu Konfirmasi" | "Hadir" | "Didisposisikan" | "Batal";
   quickToken: string;
   dibuatPada: string;
@@ -62,14 +63,25 @@ function blokKonfirmasi(a: AgendaNotif): Baris[] {
   ];
 }
 
-/** Template 1: agenda baru (instan) */
-export function pesanInstan(a: AgendaNotif) {
+const ROLE_TEXT: Record<string, string> = {
+  pimpinan: "Pimpinan",
+  superadmin: "Super Admin",
+  pemantau: "Ajudan / Protokol",
+  operator: "Operator / Pendamping",
+};
+
+/** Template 1A: Agenda baru untuk Pimpinan (memuat tombol konfirmasi cepat) */
+export function pesanInstanPimpinan(a: AgendaNotif, nama?: string) {
+  const sapaan = nama
+    ? `Yth. Bapak Kepala Balai (*${nama}*),`
+    : "Yth. Bapak Kepala Balai,";
+
   return gabung([
     "🏛️ *AGENDA KEDINASAN BARU*",
     "*Balai Bahasa Provinsi Sumatera Barat*",
     "",
-    "Yth. Bapak Kepala Balai,",
-    "Telah dicatat agenda kedinasan baru:",
+    sapaan,
+    "Telah dicatat agenda kedinasan baru yang memerlukan perhatian/konfirmasi Bapak:",
     "",
     field("📋", "Kegiatan", a.perihal),
     field("🏢", "Penyelenggara", a.pengirim),
@@ -78,8 +90,63 @@ export function pesanInstan(a: AgendaNotif) {
     field("🗺️", "Peta", a.linkMaps),
     field("👔", "Pakaian", a.pakaian),
     field("👥", "Pendamping", a.pendamping),
+    field("📝", "Catatan", a.catatan ?? null),
     ...blokKonfirmasi(a),
+    "",
+    FOOTER,
   ]);
+}
+
+/** Template 1B: Tembusan Agenda baru untuk Ajudan, Operator, & Super Admin (koordinasi jadwal & pendampingan) */
+export function pesanInstanTembusan(
+  a: AgendaNotif,
+  penerima: { nama: string; role?: string },
+) {
+  const labelPeran =
+    penerima.role && ROLE_TEXT[penerima.role]
+      ? ` (${ROLE_TEXT[penerima.role]})`
+      : "";
+  const sapaan = `Yth. *${penerima.nama}*${labelPeran},`;
+  const urlAgenda = `${appUrl()}/agenda/${a.id}`;
+
+  return gabung([
+    "🏛️ *[TEMBUSAN JADWAL] AGENDA KEPALA BALAI*",
+    "*Balai Bahasa Provinsi Sumatera Barat*",
+    "",
+    sapaan,
+    "Berikut pemberitahuan agenda kedinasan Kepala Balai untuk koordinasi jadwal, teknis, dan pendampingan:",
+    "",
+    field("📋", "Kegiatan", a.perihal),
+    field("🏢", "Penyelenggara", a.pengirim),
+    field("📅", "Waktu", waktuLengkap(a)),
+    field("📍", "Tempat", a.lokasi),
+    field("🗺️", "Peta", a.linkMaps),
+    field("👔", "Pakaian", a.pakaian),
+    field("👥", "Pendamping", a.pendamping),
+    field("📝", "Catatan", a.catatan ?? null),
+    `📌 *Status:* ${statusTeks(a.status)}`,
+    "",
+    "🔗 *Detail & Berkas Lampiran di SIPAP:*",
+    `👉 ${urlAgenda}`,
+    "",
+    "_(Mohon tim pendamping/protokoler yang bertugas dapat mempersiapkan teknis dan perlengkapan dinas)_",
+    "",
+    FOOTER,
+  ]);
+}
+
+/** Template 1: Wrapper yang memilih template sesuai peran penerima */
+export function pesanInstan(
+  a: AgendaNotif,
+  penerima?: { nama: string; role?: string } | string,
+) {
+  if (typeof penerima === "string") {
+    return pesanInstanPimpinan(a, penerima);
+  }
+  if (!penerima || penerima.role === "pimpinan") {
+    return pesanInstanPimpinan(a, penerima?.nama);
+  }
+  return pesanInstanTembusan(a, penerima);
 }
 
 /** Template 2: rekap pagi */
@@ -181,5 +248,33 @@ export function pesanDarurat(a: AgendaNotif) {
     "",
     "Segera hubungi pimpinan dan perbarui status:",
     `👉 ${urlAntrean()}`,
+  ]);
+}
+
+/** Template: Notifikasi Akun Pengguna Baru */
+export function pesanAkunBaru(p: {
+  nama: string;
+  email: string;
+  labelRole: string;
+  password?: string;
+}) {
+  const url = appUrl();
+  return gabung([
+    "🏛️ *AKUN BARU SIPAP*",
+    "*Balai Bahasa Provinsi Sumatera Barat*",
+    "",
+    `Yth. *${p.nama}*,`,
+    "Akun Anda telah berhasil didaftarkan ke sistem *SIPAP* (Sistem Informasi Penjadwalan & Agenda Pimpinan).",
+    "",
+    `👤 *Nama:* ${p.nama}`,
+    `📧 *Email Login:* ${p.email}`,
+    p.password ? `🔑 *Kata Sandi:* ${p.password}` : null,
+    `🛡️ *Peran:* ${p.labelRole}`,
+    "",
+    `🌐 *Tautan Masuk:* ${url}/login`,
+    "",
+    "Nomor WhatsApp ini telah terhubung ke sistem untuk pengiriman notifikasi dan pembaruan agenda kedinasan.",
+    "",
+    FOOTER,
   ]);
 }
