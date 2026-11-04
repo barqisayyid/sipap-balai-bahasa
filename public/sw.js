@@ -18,8 +18,8 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title || "SIPAP", {
       body: data.body || "",
-      icon: "/pwa-icon?size=192",
-      badge: "/pwa-icon?size=192",
+      icon: "/icon-192.png",
+      badge: "/icon-192.png",
       tag: data.tag,
       data: { url: data.url || "/" },
     }),

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title-symbol">
+  <title id="title-symbol">SIPAP Logo Symbol - Gonjong S</title>
+  <g id="symbol">
+    <!-- Upper Ribbon: Forest Green (#0A5C36) -->
+    <path fill="#0A5C36" d="
+      M 224 24
+      C 204 38 180 44 148 44
+      C 94 44 54 70 54 104
+      C 54 130 76 144 116 156
+      L 142 126
+      C 106 114 94 106 94 96
+      C 94 80 110 74 140 74
+      C 168 74 198 64 218 48
+      C 222 44 224 34 224 24 Z
+    "/>
+    <!-- Lower Ribbon: Emerald Green (#059669) -->
+    <path fill="#059669" d="
+      M 32 232
+      C 52 218 76 212 108 212
+      C 162 212 202 186 202 152
+      C 202 126 180 112 140 100
+      L 114 130
+      C 150 142 162 150 162 160
+      C 162 176 146 182 116 182
+      C 88 182 58 192 38 208
+      C 34 212 32 222 32 232 Z
+    "/>
+    <!-- Central Pivot: Warm Amber Gold (#D97706) - Exact 60°/120° Rhombus -->
+    <polygon points="128,100.29 144,128 128,155.71 112,128" fill="#D97706"/>
+  </g>
+</svg>

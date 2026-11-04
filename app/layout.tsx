@@ -10,15 +10,19 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, title: "SIPAP", statusBarStyle: "default" },
   formatDetection: { telephone: false },
   icons: {
-    icon: [{ url: "/pwa-icon?size=192", sizes: "192x192", type: "image/png" }],
-    apple: [{ url: "/pwa-icon?size=180&maskable=1", sizes: "180x180" }],
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0B6645",
+  themeColor: "#0A5C36",
 };
 
 export default function RootLayout({
