@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import {
   CalendarDays,
   Check,
+  CheckCheck,
   ChevronRight,
   Clock,
   CornerUpRight,
@@ -18,7 +19,7 @@ import { BackButton } from "@/components/layout/back-button";
 import { AgendaMenu } from "@/components/agenda/agenda-menu";
 import { HeroKalender } from "@/components/agenda/hero-kalender";
 import { getAgendaById } from "@/lib/data/agenda";
-import { STATUS_STYLE } from "@/lib/status";
+import { STATUS_STYLE, getInfoStatusLifecycle } from "@/lib/status";
 import type { StatusAgenda } from "@/lib/types";
 import { dateKeyWIB, formatRentangJam, formatTanggalPanjang } from "@/lib/date";
 
@@ -44,6 +45,11 @@ export default async function DetailAgendaPage({
 
   const gaya = STATUS_STYLE[agenda.status];
   const IkonStatus = IKON_STATUS[agenda.status];
+  const infoLifecycle = getInfoStatusLifecycle(
+    agenda.status,
+    agenda.waktuMulai,
+    agenda.waktuSelesai,
+  );
   const tgl = dateKeyWIB(agenda.waktuMulai);
   const profil = await getProfil();
   const lampiran = agenda.isSensitive ? [] : await getLampiranAgenda(agenda.id);
@@ -164,27 +170,42 @@ export default async function DetailAgendaPage({
           {/* Status kehadiran */}
           <section className="mt-5">
             <div
-              className={`flex items-center justify-between rounded-[22px] px-5 py-3.5 ${gaya.card}`}
+              className={`flex items-center justify-between rounded-[22px] px-5 py-4 ${gaya.card} border border-slate-100/60 shadow-xs`}
             >
               <div className="flex items-center gap-3.5">
                 <div
-                  className={`flex h-9 w-9 items-center justify-center rounded-full text-white shadow-sm ${gaya.circle}`}
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white shadow-sm ${gaya.circle}`}
                 >
-                  <IkonStatus className="h-5 w-5" strokeWidth={2.8} />
+                  {infoLifecycle.ikon === "CheckCheck" ? (
+                    <CheckCheck className="h-5 w-5" strokeWidth={2.6} />
+                  ) : (
+                    <IkonStatus className="h-5 w-5" strokeWidth={2.8} />
+                  )}
                 </div>
                 <div>
-                  <span className="block text-xs font-semibold text-slate-600">
-                    Status Kehadiran
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="block text-xs font-semibold text-slate-600">
+                      Status Kehadiran
+                    </span>
+                    {infoLifecycle.fase === "berlangsung" && (
+                      <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600" />
+                      </span>
+                    )}
+                  </div>
                   <span
                     className={`block text-[17px] font-bold leading-tight ${gaya.teks}`}
                   >
-                    {agenda.status}
+                    {infoLifecycle.labelLengkap}
                   </span>
+                  <p className="mt-0.5 text-[11.5px] font-medium text-slate-500 leading-tight">
+                    {infoLifecycle.keterangan}
+                  </p>
                 </div>
               </div>
               <ChevronRight
-                className={`h-5 w-5 ${gaya.teks}`}
+                className={`h-5 w-5 shrink-0 ${gaya.teks}`}
                 strokeWidth={2.4}
               />
             </div>

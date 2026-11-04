@@ -91,7 +91,11 @@ export function AgendaCard({
 
               {/* Badge Hadir / Disposisi pindah ke bawah sejajar dengan Tempat */}
               <div className="shrink-0">
-                <StatusBadge status={agenda.status} />
+                <StatusBadge
+                  status={agenda.status}
+                  waktuMulai={agenda.waktuMulai}
+                  waktuSelesai={agenda.waktuSelesai}
+                />
               </div>
             </div>
           </Link>

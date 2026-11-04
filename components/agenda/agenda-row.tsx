@@ -31,7 +31,11 @@ export function AgendaRow({ agenda }: { agenda: Agenda }) {
           </div>
         </div>
       </div>
-      <StatusBadge status={agenda.status} />
+      <StatusBadge
+        status={agenda.status}
+        waktuMulai={agenda.waktuMulai}
+        waktuSelesai={agenda.waktuSelesai}
+      />
     </Link>
   );
 }
