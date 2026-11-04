@@ -8,6 +8,8 @@ import { waktuWIB } from "@/lib/date";
 import type { FormAgendaState } from "@/lib/types";
 import { agendaSchema } from "@/lib/validation";
 import { catatAudit } from "@/lib/audit";
+import { after } from "next/server";
+import { kirimNotifikasiInstan } from "@/lib/notif/instan";
 
 const teks = (fd: FormData, kunci: string) => {
   const v = fd.get(kunci);
@@ -81,14 +83,16 @@ export async function simpanAgenda(
     profil.id,
   );
 
-    await catatAudit({
-      userId: profil.id,
-      aksi: "CREATE",
-      entitas: "agenda",
-      entitasId: id,
-      sesudah: { perihal: d.perihal, waktuMulai, waktuSelesai },
-    });
-    
+  await catatAudit({
+    userId: profil.id,
+    aksi: "CREATE",
+    entitas: "agenda",
+    entitasId: id,
+    sesudah: { perihal: d.perihal, waktuMulai, waktuSelesai },
+  });
+  // Dikirim setelah respons selesai: kegagalan WA tidak menggagalkan penyimpanan
+  after(() => kirimNotifikasiInstan(id));
+
   revalidatePath("/");
   revalidatePath("/kalender");
   revalidatePath("/agenda");
