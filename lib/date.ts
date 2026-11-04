@@ -2,7 +2,7 @@ export const TZ = "Asia/Jakarta"; // WIB
 
 // ⚠️ MODE DEMO: true = "hari ini" dikunci ke 5 Nov 2026 agar sama dengan mockup.
 // Ubah ke false saat data nyata dari Supabase sudah dipakai.
-const MODE_DEMO = true;
+const MODE_DEMO = false;
 const WAKTU_DEMO = "2026-11-05T08:00:00+07:00";
 
 export function getNow(): Date {
