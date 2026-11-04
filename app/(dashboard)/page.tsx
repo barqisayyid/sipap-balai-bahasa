@@ -8,6 +8,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { SipapLogo } from "@/components/layout/sipap-logo";
+import { LiveClock } from "@/components/layout/live-clock";
 import { AgendaCard } from "@/components/agenda/agenda-card";
 import { getProfil, statusBolehDiubah } from "@/lib/auth";
 import {
@@ -22,8 +23,6 @@ import {
   getNow,
   salam,
 } from "@/lib/date";
-
-// const NAMA_PANGGILAN = "Bapak Kepala"; // nanti diambil dari tabel profiles
 
 export default async function BerandaPage() {
   const now = getNow();
@@ -51,7 +50,7 @@ export default async function BerandaPage() {
       />
 
       <div className="relative z-10">
-        {/* Header */}
+        {/* Header dengan Jam Live */}
         <header className="flex items-center justify-between px-6 pb-3 pt-6">
           <div className="flex items-center gap-3">
             <SipapLogo />
@@ -66,14 +65,18 @@ export default async function BerandaPage() {
               </p>
             </div>
           </div>
-          <button
-            type="button"
-            aria-label="Notifikasi"
-            className="relative rounded-full p-2 hover:bg-slate-100"
-          >
-            <Bell className="h-6 w-6 text-slate-800" strokeWidth={1.8} />
-            <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white" />
-          </button>
+
+          <div className="flex items-center gap-2">
+            <LiveClock variant="header" />
+            <button
+              type="button"
+              aria-label="Notifikasi"
+              className="relative rounded-full p-2 hover:bg-slate-100"
+            >
+              <Bell className="h-6 w-6 text-slate-800" strokeWidth={1.8} />
+              <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white" />
+            </button>
+          </div>
         </header>
 
         {/* Sapaan */}
@@ -88,7 +91,7 @@ export default async function BerandaPage() {
           </p>
         </section>
 
-        {/* Kartu ringkasan hari ini */}
+        {/* Kartu ringkasan hari ini dengan jam live */}
         <section className="mt-2 px-5">
           <div className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_8px_25px_-5px_rgba(0,0,0,0.05)]">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
@@ -100,13 +103,16 @@ export default async function BerandaPage() {
                   {formatTanggalPanjang(now)}
                 </span>
               </div>
-              <Link
-                href="/kalender"
-                aria-label="Buka kalender"
-                className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 hover:bg-slate-50 hover:text-slate-700"
-              >
-                <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
-              </Link>
+              <div className="flex items-center gap-2">
+                <LiveClock variant="card" showIcon />
+                <Link
+                  href="/kalender"
+                  aria-label="Buka kalender"
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 hover:bg-slate-50 hover:text-slate-700"
+                >
+                  <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+                </Link>
+              </div>
             </div>
 
             <div className="flex items-center gap-4 pt-3.5">

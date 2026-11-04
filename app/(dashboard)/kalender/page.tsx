@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CalendarDays, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { AgendaRow } from "@/components/agenda/agenda-row";
+import { LiveClock } from "@/components/layout/live-clock";
 import { getAgendaBulan } from "@/lib/data/agenda";
 import { STATUS_STYLE } from "@/lib/status";
 import type { StatusAgenda } from "@/lib/types";
@@ -60,8 +61,8 @@ export default async function KalenderPage({
   const grid = buatGridBulan(tb);
 
   return (
-    <div className="px-5 pt-6">
-      {/* Header */}
+    <div className="px-5 pt-6 pb-24">
+      {/* Header dengan Jam Live */}
       <section className="mb-5 mt-2 flex items-center justify-between">
         <div className="flex items-center gap-3.5">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#E8F5EE] text-brand-primary">
@@ -71,13 +72,16 @@ export default async function KalenderPage({
             Kalender Agenda
           </h1>
         </div>
-        <button
-          type="button"
-          aria-label="Cari agenda"
-          className="flex h-10 w-10 items-center justify-center rounded-full text-slate-800 hover:bg-black/5 active:scale-95"
-        >
-          <Search className="h-5 w-5" strokeWidth={2.2} />
-        </button>
+        <div className="flex items-center gap-2">
+          <LiveClock variant="header" />
+          <button
+            type="button"
+            aria-label="Cari agenda"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-slate-800 hover:bg-black/5 active:scale-95"
+          >
+            <Search className="h-5 w-5" strokeWidth={2.2} />
+          </button>
+        </div>
       </section>
 
       {/* Navigasi bulan */}
