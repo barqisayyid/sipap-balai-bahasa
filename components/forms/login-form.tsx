@@ -1,6 +1,11 @@
 "use client";
 
-import { startTransition, useActionState, useState, type FormEvent } from "react";
+import {
+  startTransition,
+  useActionState,
+  useState,
+  type FormEvent,
+} from "react";
 import { Loader2, Mail, Lock, Eye, EyeOff, ShieldAlert, X } from "lucide-react";
 import { masuk } from "@/lib/actions/auth";
 
@@ -38,7 +43,7 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
               name="email"
               required
               autoComplete="username"
-              placeholder="nama@instansi.go.id"
+              placeholder="emailanda@mail.com"
               className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-[14px] text-slate-900 placeholder:text-slate-400 transition-all focus:border-[#0A5C36] focus:outline-none focus:ring-2 focus:ring-[#0A5C36]/15"
             />
           </div>
@@ -68,7 +73,9 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+              aria-label={
+                showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"
+              }
               className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 transition-colors hover:text-slate-600 focus:outline-none"
             >
               {showPassword ? (
