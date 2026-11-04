@@ -4,6 +4,32 @@ export type StatusAgenda =
   | "Didisposisikan"
   | "Batal";
 
+export type Role =
+  | "superadmin"
+  | "pimpinan"
+  | "pemantau"
+  | "operator"
+  | "pegawai";
+
+export const LABEL_ROLE: Record<Role, string> = {
+  superadmin: "Super Admin",
+  pimpinan: "Pimpinan",
+  pemantau: "Pemantau",
+  operator: "Operator",
+  pegawai: "Pegawai",
+};
+
+export interface PenggunaItem {
+  id: string;
+  fullName: string;
+  email: string;
+  role: Role;
+  phone: string;
+  isActive: boolean;
+  createdAt: string;
+  lastSignInAt?: string | null;
+}
+
 // Mengikuti kolom tabel agenda_pimpinan di PRD (camelCase)
 export interface Agenda {
   id: number;

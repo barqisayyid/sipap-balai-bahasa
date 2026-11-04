@@ -1,14 +1,9 @@
 import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { StatusAgenda } from "@/lib/types";
+import type { StatusAgenda, Role } from "@/lib/types";
 
-export type Role =
-  | "superadmin"
-  | "pimpinan"
-  | "pemantau"
-  | "operator"
-  | "pegawai";
+export { type Role, LABEL_ROLE } from "@/lib/types";
 
 export interface Profil {
   id: string;
@@ -16,14 +11,6 @@ export interface Profil {
   role: Role;
   phone: string;
 }
-
-export const LABEL_ROLE: Record<Role, string> = {
-  superadmin: "Super Admin",
-  pimpinan: "Pimpinan",
-  pemantau: "Pemantau",
-  operator: "Operator",
-  pegawai: "Pegawai",
-};
 
 /** Profil pengguna yang sedang login (null jika belum login / tidak terdaftar / nonaktif) */
 export const getProfil = cache(async (): Promise<Profil | null> => {
