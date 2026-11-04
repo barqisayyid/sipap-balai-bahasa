@@ -12,26 +12,27 @@ export default async function LoginPage({
   const sp = await searchParams;
 
   return (
-    <div
-      className="flex min-h-dvh flex-col justify-center px-7 py-10"
+    <main
+      className="flex min-h-dvh flex-col items-center justify-between px-5 py-10 sm:py-12"
       style={{
         background:
-          "linear-gradient(180deg, #E3F3EA 0%, rgba(247,250,248,0) 60%)",
+          "linear-gradient(180deg, #E6F4EC 0%, #F5FAF7 45%, #FFFFFF 100%)",
       }}
     >
-      <div className="mb-8 flex flex-col items-center text-center">
-        <SipapLogo className="h-16 w-16" />
-        <h1 className="mt-4 text-[28px] font-extrabold tracking-tight">
+      {/* Bagian Atas: Logo & Identitas Aplikasi */}
+      <div className="flex flex-col items-center text-center">
+        <SipapLogo className="h-16 w-16" variant="symbol" />
+        <h1 className="mt-4 text-[26px] font-black tracking-tight text-[#0F2438]">
           SIPAP
         </h1>
-        <p className="mt-1 text-[13px] font-medium text-slate-500">
-          Sistem Informasi Penjadwalan &amp; Agenda Pimpinan
-          <br />
-          Balai Bahasa Provinsi Sumatera Barat
-        </p>
+        <div className="mt-1.5 space-y-0.5 text-[13px] font-medium leading-relaxed text-slate-600">
+          <p>Sistem Informasi Penjadwalan &amp; Agenda Pimpinan</p>
+          <p>Balai Bahasa Provinsi Sumatera Barat</p>
+        </div>
       </div>
 
-      <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-[0_8px_25px_-5px_rgba(0,0,0,0.05)]">
+      {/* Bagian Tengah: Kotak Card Form Login */}
+      <div className="my-auto w-full max-w-[390px] rounded-[32px] border border-slate-100 bg-white p-7 shadow-[0_16px_48px_-12px_rgba(0,0,0,0.08)] sm:p-8">
         <LoginForm
           pesanAwal={
             sp.error === "profil"
@@ -40,6 +41,13 @@ export default async function LoginPage({
           }
         />
       </div>
-    </div>
+
+      {/* Bagian Bawah: Hak Cipta */}
+      <footer className="mt-8 text-center">
+        <p className="text-[12px] font-medium text-slate-400">
+          &copy; 2026 Balai Bahasa Provinsi Sumatera Barat
+        </p>
+      </footer>
+    </main>
   );
 }
