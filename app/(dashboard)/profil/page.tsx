@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { LogOut, Phone, ShieldCheck, User } from "lucide-react";
+import { ChevronRight, LogOut, Phone, ShieldCheck, User } from "lucide-react";
+import { AktifkanPush } from "@/components/pwa/aktifkan-push";
+import { PasangAplikasi } from "@/components/pwa/pasang-aplikasi";
 import { LABEL_ROLE, wajibLogin } from "@/lib/auth";
 import { keluar } from "@/lib/actions/auth";
 
@@ -34,13 +36,19 @@ export default async function ProfilPage() {
           </div>
         </dl>
       </section>
+
+      <section className="mt-4 space-y-3">
+        <PasangAplikasi />
+        <AktifkanPush />
+      </section>
+
       {profil.role === "superadmin" && (
         <Link
           href="/admin/log-notifikasi"
-          className="mt-5 flex items-center justify-between rounded-2xl border border-slate-100 bg-white px-5 py-4 text-[14px] font-bold text-slate-800 shadow-sm"
+          className="mt-4 flex items-center justify-between rounded-2xl border border-slate-100 bg-white px-5 py-4 text-[14px] font-bold text-slate-800 shadow-sm"
         >
-          Log Notifikasi WhatsApp
-          <span className="text-slate-300">›</span>
+          Log Notifikasi
+          <ChevronRight className="h-4 w-4 text-slate-300" />
         </Link>
       )}
 

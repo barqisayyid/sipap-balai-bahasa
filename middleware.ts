@@ -32,8 +32,14 @@ export async function middleware(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   // Halaman publik: login, Quick-Action WA (Fase 5), dan Cron (Fase 5, dijaga secret sendiri)
-  const publik =
-    path === "/login" || path.startsWith("/a/") || path.startsWith("/api/cron");
+    const publik =
+      path === "/login" ||
+      path.startsWith("/a/") ||
+      path.startsWith("/api/cron") ||
+      // PWA: browser mengambil berkas-berkas ini tanpa cookie login
+      path === "/manifest.webmanifest" ||
+      path === "/sw.js" ||
+      path.startsWith("/pwa-icon");
 
   if (!user && !publik) {
     const url = request.nextUrl.clone();

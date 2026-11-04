@@ -1,4 +1,5 @@
 import "server-only";
+import { tanganiGagalPermanen } from "./fallback";
 import { dateKeyWIB } from "@/lib/date";
 import { kirimWA, normalisasiNomor } from "@/lib/fonnte";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -317,7 +318,10 @@ export async function prosesAntrean(now: Date, batas = 15) {
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("notifikasi_log")
-    .select("id, nomor_tujuan, isi_pesan, percobaan_ke, coba_lagi_pada")
+    .select(
+      "id, tipe, penerima_id, agenda_id, nomor_tujuan, isi_pesan, percobaan_ke, coba_lagi_pada",
+    )
+    .eq("saluran", "whatsapp")
     .in("status", ["PENDING", "FAILED"])
     .lt("percobaan_ke", MAKS_PERCOBAAN)
     .lte("jadwal_kirim", now.toISOString())
@@ -374,8 +378,25 @@ export async function prosesAntrean(now: Date, batas = 15) {
       )
       .eq("id", r.id);
 
-    if (h.ok) terkirim++;
-    else gagal++;
+        if (h.ok) {
+          terkirim++;
+        } else {
+          gagal++;
+          if (percobaan + 1 >= MAKS_PERCOBAAN) {
+            // Percobaan terakhir gagal: alihkan ke Web Push + beri tahu Admin
+            await tanganiGagalPermanen(
+              {
+                id: r.id as number,
+                tipe: r.tipe as string,
+                penerimaId: r.penerima_id as string | null,
+                agendaId: r.agenda_id as number | null,
+                isiPesan: r.isi_pesan as string,
+              },
+              h.alasan ?? "Gagal mengirim",
+              now,
+            );
+          }
+        }
 
     if (i < siap.length - 1) await tidur(1000); // jeda ramah antar pesan
   }
