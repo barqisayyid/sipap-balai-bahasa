@@ -149,16 +149,22 @@ export async function getAgendaAktif(): Promise<Agenda[]> {
 export async function getAgendaBentrok(
   mulai: string,
   selesai: string,
+  abaikanId?: number,
 ): Promise<Agenda[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase
+  let q = supabase
     .from(TABEL)
     .select(KOLOM)
     .is("deleted_at", null)
     .neq("status", "Batal")
     .lt("waktu_mulai", iso(selesai))
-    .gt("waktu_selesai", iso(mulai))
-    .order("waktu_mulai");
+    .gt("waktu_selesai", iso(mulai));
+
+  if (abaikanId !== undefined) {
+    q = q.neq("id", abaikanId);
+  }
+
+  const { data, error } = await q.order("waktu_mulai");
   cek(error);
   return ((data ?? []) as unknown as Baris[]).map(petakan);
 }
@@ -210,4 +216,46 @@ export async function createAgenda(
     .single();
   cek(error);
   return (baris as { id: number }).id;
+}
+
+export async function updateAgenda(
+  id: number,
+  data: Partial<AgendaBaru>,
+): Promise<void> {
+  const supabase = await createClient();
+  const updateData: Record<string, unknown> = {
+    updated_at: new Date().toISOString(),
+  };
+
+  if (data.perihal !== undefined) updateData.perihal = data.perihal;
+  if (data.lokasi !== undefined) updateData.lokasi = data.lokasi;
+  if (data.waktuMulai !== undefined) updateData.waktu_mulai = iso(data.waktuMulai);
+  if (data.waktuSelesai !== undefined)
+    updateData.waktu_selesai = iso(data.waktuSelesai);
+  if (data.nomorSurat !== undefined)
+    updateData.nomor_surat = data.nomorSurat ?? null;
+  if (data.pengirim !== undefined) updateData.pengirim = data.pengirim ?? null;
+  if (data.linkMaps !== undefined) updateData.link_maps = data.linkMaps ?? null;
+  if (data.pakaian !== undefined) updateData.pakaian = data.pakaian ?? null;
+  if (data.pendamping !== undefined)
+    updateData.pendamping = data.pendamping ?? null;
+  if (data.catatan !== undefined) updateData.catatan = data.catatan ?? null;
+  if (data.isSensitive !== undefined) updateData.is_sensitive = data.isSensitive;
+
+  const { error } = await supabase
+    .from(TABEL)
+    .update(updateData)
+    .eq("id", id)
+    .is("deleted_at", null);
+  cek(error);
+}
+
+export async function deleteAgenda(id: number): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from(TABEL)
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", id)
+    .is("deleted_at", null);
+  cek(error);
 }

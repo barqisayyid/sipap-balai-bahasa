@@ -1,12 +1,13 @@
 import { BellRing } from "lucide-react";
 import { AgendaCard } from "@/components/agenda/agenda-card";
 import { StatusAksi } from "@/components/agenda/status-aksi";
-import { statusBolehDiubah, wajibLogin } from "@/lib/auth";
+import { bolehKelolaAgenda, statusBolehDiubah, wajibLogin } from "@/lib/auth";
 import { getDaftarAgenda } from "@/lib/data/agenda";
 import { getNow } from "@/lib/date";
 
 export default async function AntreanKonfirmasiPage() {
   const profil = await wajibLogin();
+  const bolehKelola = bolehKelolaAgenda(profil.role);
   const pilihan = statusBolehDiubah(profil.role).filter(
     (s) => s === "Hadir" || s === "Didisposisikan",
   );
@@ -41,7 +42,7 @@ export default async function AntreanKonfirmasiPage() {
         <div className="space-y-5">
           {daftar.map((a) => (
             <div key={a.id}>
-              <AgendaCard agenda={a} />
+              <AgendaCard agenda={a} bolehKelola={bolehKelola} />
               {pilihan.length > 0 && (
                 <div className="px-1">
                   <StatusAksi agendaId={a.id} pilihan={pilihan} />

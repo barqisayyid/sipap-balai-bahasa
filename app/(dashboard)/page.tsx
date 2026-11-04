@@ -2,15 +2,15 @@ import Link from "next/link";
 
 import {
   ArrowRight,
-  Bell,
   BellRing,
   CalendarDays,
   ChevronRight,
 } from "lucide-react";
 import { SipapLogo } from "@/components/layout/sipap-logo";
 import { LiveClock } from "@/components/layout/live-clock";
+import { NotifikasiBell } from "@/components/layout/notifikasi-bell";
 import { AgendaCard } from "@/components/agenda/agenda-card";
-import { getProfil, statusBolehDiubah } from "@/lib/auth";
+import { bolehKelolaAgenda, getProfil, statusBolehDiubah } from "@/lib/auth";
 import {
   getAgendaByDate,
   getAgendaTerdekat,
@@ -27,16 +27,15 @@ import {
 export default async function BerandaPage() {
   const now = getNow();
   const profil = await getProfil();
-  const [hariIni, terdekat] = await Promise.all([
+  const [hariIni, terdekat, menunggu] = await Promise.all([
     getAgendaByDate(dateKeyWIB(now)),
     getAgendaTerdekat(now, 3),
+    getDaftarAgenda("menunggu", now),
   ]);
   const tgl = bagianTanggal(now);
+  const bolehKelola = !!profil && bolehKelolaAgenda(profil.role);
   const bolehKonfirmasi =
     !!profil && statusBolehDiubah(profil.role).includes("Hadir");
-  const menunggu = bolehKonfirmasi
-    ? await getDaftarAgenda("menunggu", now)
-    : [];
 
   return (
     <div className="relative">
@@ -68,14 +67,16 @@ export default async function BerandaPage() {
 
           <div className="flex items-center gap-2">
             <LiveClock variant="header" />
-            <button
-              type="button"
-              aria-label="Notifikasi"
-              className="relative rounded-full p-2 hover:bg-slate-100"
-            >
-              <Bell className="h-6 w-6 text-slate-800" strokeWidth={1.8} />
-              <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white" />
-            </button>
+            <NotifikasiBell
+              items={menunggu.map((m) => ({
+                id: m.id,
+                perihal: m.perihal,
+                waktuMulai: m.waktuMulai,
+                waktuSelesai: m.waktuSelesai,
+                lokasi: m.lokasi,
+              }))}
+              role={profil?.role}
+            />
           </div>
         </header>
 
@@ -138,7 +139,7 @@ export default async function BerandaPage() {
           </div>
         </section>
 
-        {menunggu.length > 0 && (
+        {bolehKonfirmasi && menunggu.length > 0 && (
           <section className="mt-4 px-5">
             <Link
               href="/agenda/antrean-konfirmasi"
@@ -169,7 +170,9 @@ export default async function BerandaPage() {
 
           <div className="space-y-3">
             {terdekat.length > 0 ? (
-              terdekat.map((a) => <AgendaCard key={a.id} agenda={a} />)
+              terdekat.map((a) => (
+                <AgendaCard key={a.id} agenda={a} bolehKelola={bolehKelola} />
+              ))
             ) : (
               <p className="rounded-2xl bg-white p-4 text-sm text-slate-500">
                 Belum ada agenda mendatang.

@@ -29,6 +29,16 @@ export function formatJam(d: Date | string): string {
   }).format(new Date(d));
 }
 
+/** "09:00" untuk input type="time" */
+export function formatJamInput(d: Date | string): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: TZ,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).format(new Date(d));
+}
+
 /** "09.00 – 12.00 WIB" */
 export function formatRentangJam(mulai: Date | string, selesai: Date | string) {
   return `${formatJam(mulai)} – ${formatJam(selesai)} WIB`;

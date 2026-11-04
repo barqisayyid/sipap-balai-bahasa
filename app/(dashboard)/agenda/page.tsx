@@ -1,22 +1,11 @@
-import Link from "next/link";
 import { List } from "lucide-react";
-import { AgendaCard } from "@/components/agenda/agenda-card";
 import { LiveClock } from "@/components/layout/live-clock";
+import { AgendaListView } from "@/components/agenda/agenda-list-view";
+import { bolehKelolaAgenda, getProfil } from "@/lib/auth";
 import { getDaftarAgenda, type FilterAgenda } from "@/lib/data/agenda";
-import { dateKeyWIB, formatTanggalPanjang, getNow } from "@/lib/date";
-import type { Agenda } from "@/lib/types";
+import { dateKeyWIB, getNow } from "@/lib/date";
 
-const FILTER: { kunci: FilterAgenda; label: string }[] = [
-  { kunci: "mendatang", label: "Mendatang" },
-  { kunci: "menunggu", label: "Belum Konfirmasi" },
-  { kunci: "semua", label: "Semua" },
-];
-
-const PESAN_KOSONG: Record<FilterAgenda, string> = {
-  mendatang: "Belum ada agenda mendatang.",
-  menunggu: "Semua agenda sudah terkonfirmasi. 🎉",
-  semua: "Belum ada agenda sama sekali.",
-};
+const FILTER_KEYS: FilterAgenda[] = ["mendatang", "menunggu", "semua"];
 
 export default async function DaftarAgendaPage({
   searchParams,
@@ -24,20 +13,15 @@ export default async function DaftarAgendaPage({
   searchParams: Promise<{ filter?: string }>;
 }) {
   const sp = await searchParams;
-  const filter: FilterAgenda = FILTER.some((f) => f.kunci === sp.filter)
+  const filter: FilterAgenda = FILTER_KEYS.includes(sp.filter as FilterAgenda)
     ? (sp.filter as FilterAgenda)
     : "mendatang";
 
   const now = getNow();
+  const profil = await getProfil();
+  const bolehKelola = !!profil && bolehKelolaAgenda(profil.role);
   const hariIniKey = dateKeyWIB(now);
   const daftar = await getDaftarAgenda(filter, now);
-
-  // Kelompokkan per tanggal
-  const kelompok = new Map<string, Agenda[]>();
-  for (const a of daftar) {
-    const k = dateKeyWIB(a.waktuMulai);
-    kelompok.set(k, [...(kelompok.get(k) ?? []), a]);
-  }
 
   return (
     <div className="px-5 pt-6 pb-24">
@@ -58,51 +42,12 @@ export default async function DaftarAgendaPage({
         <LiveClock variant="header" />
       </section>
 
-      {/* Filter */}
-      <nav className="mb-5 flex gap-2 overflow-x-auto pb-1" aria-label="Filter">
-        {FILTER.map((f) => {
-          const on = f.kunci === filter;
-          return (
-            <Link
-              key={f.kunci}
-              href={`/agenda?filter=${f.kunci}`}
-              className={`rounded-full px-4 py-2 text-[13px] font-bold transition-colors ${
-                on
-                  ? "border-brand-primary bg-brand-primary text-white"
-                  : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              {f.label}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {daftar.length === 0 ? (
-        <p className="rounded-2xl border border-slate-100 bg-white p-6 text-center text-sm font-semibold text-slate-500 shadow-sm">
-          {PESAN_KOSONG[filter]}
-        </p>
-      ) : (
-        <div className="space-y-6">
-          {[...kelompok.entries()].map(([key, items]) => (
-            <section key={key}>
-              <h2 className="mb-2.5 px-1 text-[13px] font-bold text-slate-500">
-                {key === hariIniKey && (
-                  <span className="mr-1.5 rounded-full bg-brand-mint px-2 py-0.5 text-[11px] text-brand-primary">
-                    Hari Ini
-                  </span>
-                )}
-                {formatTanggalPanjang(new Date(`${key}T12:00:00+07:00`))}
-              </h2>
-              <div className="space-y-3">
-                {items.map((a) => (
-                  <AgendaCard key={a.id} agenda={a} tampilTanggal={false} />
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-      )}
+      <AgendaListView
+        daftarAwal={daftar}
+        filterAktif={filter}
+        hariIniKey={hariIniKey}
+        bolehKelola={bolehKelola}
+      />
     </div>
   );
 }

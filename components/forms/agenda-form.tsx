@@ -10,10 +10,10 @@ import {
 } from "react";
 import { Loader2 } from "lucide-react";
 import { ConflictBadge } from "@/components/calendar/conflict-badge";
-import { simpanAgenda } from "@/lib/actions/agenda";
+import { simpanAgenda, perbaruiAgenda } from "@/lib/actions/agenda";
 import { cariBentrok } from "@/lib/conflict";
-import { waktuWIB } from "@/lib/date";
-import type { AgendaRingkas } from "@/lib/types";
+import { dateKeyWIB, formatJamInput, waktuWIB } from "@/lib/date";
+import type { Agenda, AgendaRingkas } from "@/lib/types";
 
 const inputCls =
   "w-full min-w-0 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-[15px] text-slate-900 placeholder:text-slate-400 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/20";
@@ -48,18 +48,41 @@ function Field({
 export function AgendaForm({
   agendaAktif,
   tanggalDefault,
+  agendaAwal,
 }: {
   agendaAktif: AgendaRingkas[];
-  tanggalDefault: string;
+  tanggalDefault?: string;
+  agendaAwal?: Agenda;
 }) {
-  const [state, formAction, pending] = useActionState(simpanAgenda, null);
+  const isEdit = !!agendaAwal;
+
+  const actionFn = useMemo(() => {
+    return isEdit
+      ? perbaruiAgenda.bind(null, agendaAwal.id)
+      : simpanAgenda;
+  }, [isEdit, agendaAwal]);
+
+  const [state, formAction, pending] = useActionState(actionFn, null);
   const err = state?.errors ?? {};
 
+  const awalTanggal = agendaAwal
+    ? dateKeyWIB(agendaAwal.waktuMulai)
+    : (tanggalDefault ?? "");
+  const awalJamMulai = agendaAwal ? formatJamInput(agendaAwal.waktuMulai) : "";
+  const awalJamSelesai = agendaAwal ? formatJamInput(agendaAwal.waktuSelesai) : "";
+
   // Tiga isian ini dipantau agar bentrok terdeteksi saat mengetik
-  const [tanggal, setTanggal] = useState(tanggalDefault);
-  const [jamMulai, setJamMulai] = useState("");
-  const [jamSelesai, setJamSelesai] = useState("");
+  const [tanggal, setTanggal] = useState(awalTanggal);
+  const [jamMulai, setJamMulai] = useState(awalJamMulai);
+  const [jamSelesai, setJamSelesai] = useState(awalJamSelesai);
   const [izinkan, setIzinkan] = useState(false);
+
+  // Abaikan agenda yang sedang diedit agar tidak terdeteksi bentrok dengan dirinya sendiri
+  const daftarCekBentrok = useMemo(() => {
+    return isEdit
+      ? agendaAktif.filter((a) => a.id !== agendaAwal.id)
+      : agendaAktif;
+  }, [agendaAktif, isEdit, agendaAwal]);
 
   const bentrok = useMemo(() => {
     if (!tanggal || !jamMulai || !jamSelesai || jamSelesai <= jamMulai)
@@ -69,9 +92,9 @@ export function AgendaForm({
         waktuMulai: waktuWIB(tanggal, jamMulai),
         waktuSelesai: waktuWIB(tanggal, jamSelesai),
       },
-      agendaAktif,
+      daftarCekBentrok,
     );
-  }, [tanggal, jamMulai, jamSelesai, agendaAktif]);
+  }, [tanggal, jamMulai, jamSelesai, daftarCekBentrok]);
 
   // Dikirim lewat onSubmit (bukan action=) agar isian tidak di-reset saat ada error
   function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -87,7 +110,7 @@ export function AgendaForm({
       {/* Kolom wajib */}
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white p-5 shadow-sm">
         <h2 className="text-[15px] font-extrabold tracking-tight">
-          Informasi Utama
+          {isEdit ? "Informasi Utama (Diperbarui)" : "Informasi Utama"}
         </h2>
 
         <Field label="Perihal / Nama Kegiatan" wajib error={err.perihal}>
@@ -95,6 +118,7 @@ export function AgendaForm({
             name="perihal"
             required
             maxLength={200}
+            defaultValue={agendaAwal?.perihal}
             placeholder="Contoh: Rapat Koordinasi Kebahasaan"
             className={inputCls}
           />
@@ -155,6 +179,7 @@ export function AgendaForm({
             name="lokasi"
             required
             maxLength={200}
+            defaultValue={agendaAwal?.lokasi}
             placeholder="Contoh: Novotel Bukittinggi"
             className={inputCls}
           />
@@ -173,27 +198,47 @@ export function AgendaForm({
         </div>
 
         <Field label="Pengundang / Penyelenggara" error={err.pengirim}>
-          <input name="pengirim" maxLength={200} className={inputCls} />
+          <input
+            name="pengirim"
+            maxLength={200}
+            defaultValue={agendaAwal?.pengirim}
+            placeholder="Contoh: Dinas Pendidikan Prov. Sumbar"
+            className={inputCls}
+          />
         </Field>
         <Field label="Nomor Surat" error={err.nomorSurat}>
-          <input name="nomorSurat" maxLength={150} className={inputCls} />
+          <input
+            name="nomorSurat"
+            maxLength={150}
+            defaultValue={agendaAwal?.nomorSurat}
+            placeholder="Contoh: 005/123/Disdik/2026"
+            className={inputCls}
+          />
         </Field>
         <Field label="Pakaian" error={err.pakaian}>
           <input
             name="pakaian"
             maxLength={100}
+            defaultValue={agendaAwal?.pakaian}
             placeholder="Contoh: Batik lengan panjang"
             className={inputCls}
           />
         </Field>
         <Field label="Pendamping" error={err.pendamping}>
-          <input name="pendamping" maxLength={200} className={inputCls} />
+          <input
+            name="pendamping"
+            maxLength={200}
+            defaultValue={agendaAwal?.pendamping}
+            placeholder="Contoh: Staf Humas / Ajudan"
+            className={inputCls}
+          />
         </Field>
         <Field label="Link Google Maps" error={err.linkMaps}>
           <input
             type="url"
             name="linkMaps"
             maxLength={500}
+            defaultValue={agendaAwal?.linkMaps}
             placeholder="https://maps.google.com/..."
             className={inputCls}
           />
@@ -203,6 +248,8 @@ export function AgendaForm({
             name="catatan"
             rows={3}
             maxLength={1000}
+            defaultValue={agendaAwal?.catatan}
+            placeholder="Tambahkan catatan perlengkapan, bahan paparan, dll."
             className={inputCls}
           />
         </Field>
@@ -211,6 +258,7 @@ export function AgendaForm({
           <input
             type="checkbox"
             name="isSensitive"
+            defaultChecked={agendaAwal?.isSensitive}
             className="mt-0.5 h-4 w-4 rounded border-slate-300 accent-brand-primary"
           />
           <span>
@@ -238,9 +286,11 @@ export function AgendaForm({
           {pending && <Loader2 className="h-4 w-4 animate-spin" />}
           {pending
             ? "Menyimpan..."
-            : bentrok.length > 0
-              ? "Simpan Meski Bentrok"
-              : "Simpan Agenda"}
+            : isEdit
+              ? "Simpan Perubahan"
+              : bentrok.length > 0
+                ? "Simpan Meski Bentrok"
+                : "Simpan Agenda"}
         </button>
       </div>
     </form>

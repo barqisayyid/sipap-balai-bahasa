@@ -1,0 +1,27 @@
+name: SIPAP Background Reminder Cron
+
+on:
+  schedule:
+    # Berjalan setiap 15 menit (UTC) untuk mengevaluasi pengingat H-2 jam, eskalasi, dan darurat
+    - cron: "*/15 * * * *"
+  workflow_dispatch: # Memungkinkan tombol 'Run workflow' manual di GitHub Actions
+
+jobs:
+  pemicu-pengingat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Panggil Endpoint Cron SIPAP
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          TARGET_URL="${APP_URL:-https://sipap-balai-bahasa.vercel.app}/api/cron/reminder"
+          echo "Memanggil endpoint: $TARGET_URL"
+          RESPONSE_CODE=$(curl -s -o response.json -w "%{http_code}" -X GET "$TARGET_URL" \
+            -H "Authorization: Bearer $CRON_SECRET")
+          echo "HTTP Status Code: $RESPONSE_CODE"
+          cat response.json
+          if [ "$RESPONSE_CODE" -ne 200 ]; then
+            echo "Gagal memicu cron (Status $RESPONSE_CODE)"
+            exit 1
+          fi

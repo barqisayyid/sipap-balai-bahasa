@@ -11,11 +11,11 @@ import {
   Clock,
   CornerUpRight,
   MapPin,
-  MoreHorizontal,
   Shirt,
   X,
 } from "lucide-react";
 import { BackButton } from "@/components/layout/back-button";
+import { AgendaMenu } from "@/components/agenda/agenda-menu";
 import { HeroKalender } from "@/components/agenda/hero-kalender";
 import { getAgendaById } from "@/lib/data/agenda";
 import { STATUS_STYLE } from "@/lib/status";
@@ -34,7 +34,7 @@ export default async function DetailAgendaPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ baru?: string }>;
+  searchParams: Promise<{ baru?: string; edit?: string }>;
 }) {
   const { id } = await params;
   const sp = await searchParams;
@@ -62,13 +62,10 @@ export default async function DetailAgendaPage({
       {/* Bar atas */}
       <nav className="flex items-center justify-between px-6 pb-1 pt-5">
         <BackButton fallback="/kalender" />
-        <button
-          type="button"
-          aria-label="Pilihan lainnya"
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-slate-800 shadow-[0_2px_10px_rgba(0,0,0,0.06)] backdrop-blur-md transition-all hover:bg-white active:scale-95"
-        >
-          <MoreHorizontal className="h-5 w-5" />
-        </button>
+        <AgendaMenu
+          agenda={agenda}
+          bolehKelola={!!profil && bolehKelolaAgenda(profil.role)}
+        />
       </nav>
 
       <main className="flex flex-1 flex-col justify-between px-7 pt-1">
@@ -80,6 +77,15 @@ export default async function DetailAgendaPage({
             >
               <Check className="h-4 w-4 shrink-0" strokeWidth={3} />
               Agenda berhasil disimpan.
+            </div>
+          )}
+          {sp.edit === "1" && (
+            <div
+              role="status"
+              className="mb-3 flex items-center gap-2 rounded-2xl border border-[#D5EFE0] bg-brand-mint px-4 py-3 text-[13px] font-semibold text-brand-primary"
+            >
+              <Check className="h-4 w-4 shrink-0" strokeWidth={3} />
+              Perubahan agenda berhasil disimpan.
             </div>
           )}
           {/* Ilustrasi */}
