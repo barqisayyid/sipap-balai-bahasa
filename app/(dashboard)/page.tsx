@@ -103,16 +103,13 @@ export default async function BerandaPage() {
                   {formatTanggalPanjang(now)}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <LiveClock variant="card" showIcon />
-                <Link
-                  href="/kalender"
-                  aria-label="Buka kalender"
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 hover:bg-slate-50 hover:text-slate-700"
-                >
-                  <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
-                </Link>
-              </div>
+              <Link
+                href="/kalender"
+                aria-label="Buka kalender"
+                className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 hover:bg-slate-50 hover:text-slate-700"
+              >
+                <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+              </Link>
             </div>
 
             <div className="flex items-center gap-4 pt-3.5">
