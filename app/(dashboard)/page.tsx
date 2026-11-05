@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { SipapLogo } from "@/components/layout/sipap-logo";
 import { LiveClock } from "@/components/layout/live-clock";
-import { NotifikasiBell } from "@/components/layout/notifikasi-bell";
 import { AgendaCard } from "@/components/agenda/agenda-card";
 import { bolehKelolaAgenda, getProfil, statusBolehDiubah } from "@/lib/auth";
 import {
@@ -57,42 +56,19 @@ export default async function BerandaPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <LiveClock variant="header" />
-            <NotifikasiBell
-              items={menunggu.map((m) => ({
-                id: m.id,
-                perihal: m.perihal,
-                waktuMulai: m.waktuMulai,
-                waktuSelesai: m.waktuSelesai,
-                lokasi: m.lokasi,
-              }))}
-              role={profil?.role}
-            />
           </div>
         </header>
 
-        {/* Konteks Pengguna & Peran */}
+        {/* Konteks Pengguna */}
         <section className="px-5 pt-4 pb-2">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[12px] font-medium text-slate-500">
-                Agenda Kedinasan
-              </p>
-              <h2 className="text-[19px] font-semibold tracking-tight text-slate-900">
-                {profil?.fullName ?? "Pimpinan"}
-              </h2>
-            </div>
-            <span className="rounded-md border border-slate-200/80 bg-slate-50 px-2 py-0.5 text-[11px] font-medium text-slate-600">
-              {profil?.role === "pimpinan"
-                ? "Kepala Balai"
-                : profil?.role === "superadmin"
-                  ? "Super Admin"
-                  : profil?.role === "pemantau"
-                    ? "Ajudan"
-                    : "Operator"}
-            </span>
-          </div>
+          <p className="text-[12px] font-medium text-slate-500">
+            Agenda Kedinasan
+          </p>
+          <h2 className="text-[19px] font-semibold tracking-tight text-slate-900">
+            {profil?.fullName ?? "Pimpinan"}
+          </h2>
         </section>
 
         {/* Kartu Ringkasan Hero: Deep Emerald Heritage + Watermark Minang + Double Rule */}
