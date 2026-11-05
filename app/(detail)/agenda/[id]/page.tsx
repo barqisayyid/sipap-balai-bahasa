@@ -23,7 +23,6 @@ import type { StatusAgenda } from "@/lib/types";
 import { dateKeyWIB, formatRentangJam, formatTanggalPanjang } from "@/lib/date";
 import {
   MinangWatermark,
-  DoubleHairlineRule,
   CapStempelKedinasan,
 } from "@/components/ui/minang-motif";
 
@@ -104,9 +103,9 @@ export default async function DetailAgendaPage({
           <section className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 shadow-2xs">
             {/* Watermark Ornamen Tradisional Minangkabau (image.svg) */}
             <MinangWatermark
-              opacity={0.08}
+              opacity={0.045}
               color="emerald"
-              className="pointer-events-none absolute right-0 top-0 h-44 w-64 overflow-hidden"
+              className="pointer-events-none absolute inset-0 overflow-hidden"
             />
 
             <div className="relative z-10">
@@ -143,8 +142,8 @@ export default async function DetailAgendaPage({
                 <CapStempelKedinasan status={agenda.status} className="shrink-0 mt-0.5" />
               </div>
 
-              {/* Garis Ganda Naskah Dinas */}
-              <DoubleHairlineRule variant="dark" className="my-3" />
+              {/* Garis Pembatas Tunggal Bersih */}
+              <div className="my-3.5 border-t border-slate-100" />
 
               {/* Rincian Waktu & Lokasi */}
               <div className="space-y-2.5 text-[13px]">
@@ -155,7 +154,7 @@ export default async function DetailAgendaPage({
                       {formatTanggalPanjang(agenda.waktuMulai)}
                     </p>
                     <p className="mt-0.5 text-[12px] font-medium tabular-nums text-slate-600">
-                      {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)} WIB
+                      {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)}
                     </p>
                   </div>
                 </div>

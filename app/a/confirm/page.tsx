@@ -50,7 +50,7 @@ function Ringkasan({ agenda }: { agenda: AgendaToken }) {
         <p className="flex items-start gap-2.5">
           <Clock className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
           <span className="font-semibold tabular-nums text-slate-700">
-            {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)} WIB
+            {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)}
           </span>
         </p>
         <p className="flex items-start gap-2.5">

@@ -27,7 +27,7 @@ export function ConflictBadge({ bentrok }: { bentrok: Bentrok[] }) {
             <br />
             <span className="text-[11.5px] font-semibold tabular-nums text-red-700">
               {formatTanggalSingkat(a.waktuMulai)} ·{" "}
-              {formatRentangJam(a.waktuMulai, a.waktuSelesai)} WIB
+              {formatRentangJam(a.waktuMulai, a.waktuSelesai)}
             </span>
           </li>
         ))}
