@@ -25,6 +25,7 @@ import {
   MinangWatermark,
   CapStempelKedinasan,
 } from "@/components/ui/minang-motif";
+import { FlashToast } from "@/components/ui/flash-toast";
 
 const IKON_STATUS: Record<StatusAgenda, typeof Check> = {
   Hadir: Check,
@@ -90,16 +91,12 @@ export default async function DetailAgendaPage({
 
       <main className="flex-1 bg-slate-50/60 pb-6">
         <div className="mx-auto max-w-lg space-y-3.5 p-4">
-          {/* Banner Sukses (jika baru dibuat atau diedit) */}
+          {/* Toast Notifikasi Sukses Cerdas (auto-dismiss & URL cleanup) */}
           {sp.baru && (
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-[13px] font-medium text-emerald-900">
-              Agenda baru berhasil dijadwalkan.
-            </div>
+            <FlashToast message="Agenda baru berhasil dijadwalkan." />
           )}
           {sp.edit && (
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-[13px] font-medium text-emerald-900">
-              Perubahan agenda berhasil disimpan.
-            </div>
+            <FlashToast message="Perubahan agenda berhasil disimpan." />
           )}
 
           {/* Kartu Lembar Dokumen Agenda Resmi */}
