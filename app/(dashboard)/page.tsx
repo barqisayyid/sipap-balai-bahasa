@@ -20,6 +20,7 @@ import {
   dateKeyWIB,
   formatTanggalPanjang,
   getNow,
+  salam,
 } from "@/lib/date";
 import {
   MinangWatermark,
@@ -60,12 +61,12 @@ export default async function BerandaPage() {
           </div>
         </header>
 
-        {/* Konteks Pengguna */}
+        {/* Sapaan Pengguna */}
         <section className="px-5 pt-4 pb-2">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            Agenda Kedinasan
+          <p className="text-[13px] font-medium text-slate-500">
+            {salam(now)},
           </p>
-          <h2 className="text-[22px] font-bold tracking-tight text-slate-950">
+          <h2 className="mt-0.5 text-[22px] font-extrabold tracking-tight text-slate-950">
             {profil?.fullName ?? "Pimpinan"}
           </h2>
         </section>
