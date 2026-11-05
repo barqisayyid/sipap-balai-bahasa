@@ -71,7 +71,7 @@ export default async function DetailAgendaPage({
             fallback={tgl ? `/kalender?tgl=${tgl}` : "/agenda"}
             forceFallback={Boolean(sp.edit || sp.baru)}
           />
-          <span className="text-[14px] font-semibold text-slate-800">
+          <span className="text-[15px] font-bold tracking-tight text-slate-900">
             Detail Agenda
           </span>
         </div>
@@ -80,7 +80,7 @@ export default async function DetailAgendaPage({
           {bolehKelola && (
             <Link
               href={`/agenda/${agenda.id}/edit`}
-              className="rounded-lg px-2.5 py-1.5 text-[12px] font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+              className="rounded-lg bg-emerald-50 px-2.5 py-1 text-[12px] font-semibold text-brand-primary hover:bg-emerald-100 transition-colors"
             >
               Ubah
             </Link>
@@ -121,27 +121,27 @@ export default async function DetailAgendaPage({
             <div className="relative z-10">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
                 <div className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
-                  <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">
+                  <span className="h-2 w-2 rounded-full bg-brand-primary" />
+                  <span className="text-[10.5px] font-bold uppercase tracking-wider text-brand-dark/80">
                     Agenda Resmi Balai Bahasa
                   </span>
                 </div>
                 {agenda.nomorSurat && (
-                  <span className="text-[11.5px] font-medium text-slate-500 truncate max-w-[150px]">
-                    No. {agenda.nomorSurat}
+                  <span className="text-[11.5px] font-normal text-slate-400 truncate max-w-[160px]">
+                    No. <span className="font-semibold text-slate-600">{agenda.nomorSurat}</span>
                   </span>
                 )}
               </div>
 
-              <div className="mt-3 flex items-start justify-between gap-3">
+              <div className="mt-3.5 flex items-start justify-between gap-3">
                 <div className="flex-1">
-                  <h1 className="text-[18px] font-semibold leading-snug tracking-tight text-slate-900 [text-wrap:balance]">
+                  <h1 className="text-[21px] font-bold leading-snug tracking-tight text-slate-950 [text-wrap:balance]">
                     {agenda.perihal}
                   </h1>
                   {agenda.pengirim && (
-                    <p className="mt-1 text-[12.5px] text-slate-600">
+                    <p className="mt-1.5 text-[13px] font-normal text-slate-500">
                       Penyelenggara:{" "}
-                      <span className="font-medium text-slate-800">
+                      <span className="font-semibold text-slate-800">
                         {agenda.pengirim}
                       </span>
                     </p>
@@ -153,53 +153,59 @@ export default async function DetailAgendaPage({
               </div>
 
               {/* Garis Pembatas Tunggal Bersih */}
-              <div className="my-3.5 border-t border-slate-100" />
+              <div className="my-4 border-t border-slate-100" />
 
               {/* Rincian Waktu & Lokasi */}
-              <div className="space-y-2.5 text-[13px]">
-                <div className="flex items-start gap-2.5 text-slate-700">
-                  <CalendarDays className="h-4 w-4 mt-0.5 text-slate-500 shrink-0" />
+              <div className="space-y-3">
+                <div className="flex items-start gap-2.5">
+                  <CalendarDays className="h-4.5 w-4.5 mt-0.5 text-slate-400 shrink-0" />
                   <div className="leading-tight">
-                    <p className="font-medium text-slate-900">
+                    <p className="text-[14px] font-semibold text-slate-900">
                       {formatTanggalPanjang(agenda.waktuMulai)}
                     </p>
-                    <p className="mt-0.5 text-[12px] font-medium tabular-nums text-slate-600">
+                    <p className="mt-1 text-[12px] font-normal tabular-nums text-slate-500">
                       {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 text-slate-700">
-                  <MapPin className="h-4 w-4 text-slate-500 shrink-0" />
-                  {agenda.linkMaps ? (
-                    <a
-                      href={agenda.linkMaps}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-brand-primary underline underline-offset-2 hover:text-brand-dark"
-                    >
-                      {agenda.lokasi}
-                    </a>
-                  ) : (
-                    <span className="font-medium text-slate-800">{agenda.lokasi}</span>
-                  )}
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="h-4.5 w-4.5 mt-0.5 text-slate-400 shrink-0" />
+                  <div className="leading-tight">
+                    {agenda.linkMaps ? (
+                      <a
+                        href={agenda.linkMaps}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[13.5px] font-semibold text-brand-primary underline underline-offset-2 hover:text-brand-dark"
+                      >
+                        {agenda.lokasi}
+                      </a>
+                    ) : (
+                      <span className="text-[13.5px] font-semibold text-slate-900">
+                        {agenda.lokasi}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {agenda.pakaian && (
-                  <div className="flex items-center gap-2.5 text-slate-700">
-                    <Shirt className="h-4 w-4 text-slate-400 shrink-0" />
-                    <span className="text-slate-600">
-                      Pakaian: <span className="font-medium text-slate-800">{agenda.pakaian}</span>
-                    </span>
+                  <div className="flex items-center gap-2.5">
+                    <Shirt className="h-4.5 w-4.5 text-slate-400 shrink-0" />
+                    <div className="text-[13px]">
+                      <span className="font-normal text-slate-500">Pakaian: </span>
+                      <span className="font-semibold text-slate-800">{agenda.pakaian}</span>
+                    </div>
                   </div>
                 )}
 
                 {agenda.pendamping && (
-                  <div className="flex items-center gap-2.5 text-slate-700">
-                    <Users className="h-4 w-4 text-slate-400 shrink-0" />
-                    <span className="text-slate-600">
-                      Pendamping: <span className="font-medium text-slate-800">{agenda.pendamping}</span>
-                    </span>
+                  <div className="flex items-center gap-2.5">
+                    <Users className="h-4.5 w-4.5 text-slate-400 shrink-0" />
+                    <div className="text-[13px]">
+                      <span className="font-normal text-slate-500">Pendamping: </span>
+                      <span className="font-semibold text-slate-800">{agenda.pendamping}</span>
+                    </div>
                   </div>
                 )}
               </div>
@@ -220,17 +226,17 @@ export default async function DetailAgendaPage({
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[11px] font-medium text-slate-500">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                         Status Kehadiran
                       </span>
                       {infoLifecycle.fase === "berlangsung" && (
                         <span className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
                       )}
                     </div>
-                    <span className="block text-[14.5px] font-semibold leading-tight text-slate-900">
+                    <span className="block text-[15.5px] font-bold leading-tight tracking-tight text-slate-950">
                       {infoLifecycle.labelLengkap}
                     </span>
-                    <p className="mt-0.5 text-[11.5px] text-slate-500 leading-tight">
+                    <p className="mt-1 text-[12px] font-normal text-slate-600 leading-relaxed">
                       {infoLifecycle.keterangan}
                     </p>
                   </div>
@@ -260,10 +266,10 @@ export default async function DetailAgendaPage({
           {/* Catatan Tambahan */}
           {agenda.catatan && (
             <section className="rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-2xs">
-              <h2 className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+              <h2 className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400">
                 Catatan Tambahan
               </h2>
-              <p className="mt-1.5 whitespace-pre-wrap text-[13px] leading-relaxed text-slate-700">
+              <p className="mt-1.5 whitespace-pre-wrap text-[13.5px] font-normal leading-relaxed text-slate-800">
                 {agenda.catatan}
               </p>
             </section>

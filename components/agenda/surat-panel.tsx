@@ -18,7 +18,7 @@ export function SuratPanel({
 }) {
   return (
     <section className="mt-4 rounded-xl border border-slate-200/80 bg-white p-3.5">
-      <h2 className="text-[13.5px] font-semibold tracking-tight text-slate-900">
+      <h2 className="text-[14px] font-bold tracking-tight text-slate-900">
         Berkas Surat Undangan
       </h2>
 
@@ -31,7 +31,7 @@ export function SuratPanel({
       ) : (
         <>
           {lampiran.length === 0 ? (
-            <p className="mt-1 text-[13px] text-slate-500">
+            <p className="mt-1 text-[12.5px] font-normal text-slate-500">
               Belum ada berkas surat yang diunggah.
             </p>
           ) : (
@@ -54,10 +54,10 @@ export function SuratPanel({
                         <Ikon className="h-4.5 w-4.5" />
                       </span>
                       <span className="min-w-0">
-                        <span className="block truncate text-[13px] font-semibold text-slate-800">
+                        <span className="block truncate text-[13px] font-semibold text-slate-900">
                           {l.namaFile}
                         </span>
-                        <span className="block text-[11px] font-medium tabular-nums text-slate-500">
+                        <span className="block text-[11.5px] font-normal tabular-nums text-slate-500">
                           {formatUkuran(l.ukuranBytes)} · Buka dokumen
                         </span>
                       </span>

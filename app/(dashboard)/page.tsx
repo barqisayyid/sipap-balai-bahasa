@@ -46,10 +46,10 @@ export default async function BerandaPage() {
           <div className="flex items-center gap-2.5">
             <SipapLogo className="h-9 w-9" />
             <div className="flex flex-col">
-              <h1 className="text-[17px] font-bold leading-none tracking-tight text-slate-900">
+              <h1 className="text-[18px] font-extrabold leading-none tracking-tight text-slate-900">
                 SIPAP
               </h1>
-              <p className="mt-1 text-[11px] font-medium leading-tight text-slate-500">
+              <p className="mt-1 text-[11.5px] font-normal leading-tight text-slate-500">
                 Balai Bahasa Sumatera Barat
               </p>
             </div>
@@ -62,10 +62,10 @@ export default async function BerandaPage() {
 
         {/* Konteks Pengguna */}
         <section className="px-5 pt-4 pb-2">
-          <p className="text-[12px] font-medium text-slate-500">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
             Agenda Kedinasan
           </p>
-          <h2 className="text-[19px] font-semibold tracking-tight text-slate-900">
+          <h2 className="text-[22px] font-bold tracking-tight text-slate-950">
             {profil?.fullName ?? "Pimpinan"}
           </h2>
         </section>
@@ -107,10 +107,10 @@ export default async function BerandaPage() {
               {/* Baris Bawah: Angka Tanggal & Ringkasan Agenda Hari Ini */}
               <div className="flex items-center gap-3">
                 <div className="flex min-w-[70px] flex-col items-center border-r border-white/15 pr-3.5">
-                  <span className="text-[32px] font-semibold leading-none tracking-tight tabular-nums text-white">
+                  <span className="text-[36px] font-extrabold leading-none tracking-tight tabular-nums text-white">
                     {tgl.hari}
                   </span>
-                  <span className="mt-1.5 text-[11px] font-medium text-emerald-200/90 uppercase tracking-wider">
+                  <span className="mt-1.5 text-[11px] font-bold text-emerald-200/90 uppercase tracking-wider">
                     {tgl.bulan} · {tgl.namaHari}
                   </span>
                 </div>
@@ -119,19 +119,19 @@ export default async function BerandaPage() {
                   <div className="flex flex-col">
                     {hariIni.length > 0 ? (
                       <>
-                        <span className="text-[14px] font-semibold text-white leading-tight">
+                        <span className="text-[15px] font-bold text-white leading-tight">
                           {hariIni.length} Agenda Terjadwal
                         </span>
-                        <span className="text-[11.5px] text-emerald-200/80 font-normal">
+                        <span className="text-[12px] text-emerald-100/80 font-normal">
                           Hari ini di Balai Bahasa
                         </span>
                       </>
                     ) : (
                       <>
-                        <span className="text-[13.5px] font-medium text-white/95 leading-tight">
+                        <span className="text-[14px] font-semibold text-white/95 leading-tight">
                           Tidak ada agenda
                         </span>
-                        <span className="text-[11px] text-emerald-200/75 font-normal">
+                        <span className="text-[11.5px] text-emerald-200/75 font-normal">
                           Jadwal pimpinan kosong hari ini
                         </span>
                       </>
@@ -168,7 +168,7 @@ export default async function BerandaPage() {
         {/* Agenda terdekat */}
         <section className="mt-5 px-5">
           <div className="mb-2.5 flex items-center justify-between px-0.5">
-            <h3 className="text-[15px] font-semibold tracking-tight text-slate-900">
+            <h3 className="text-[16px] font-bold tracking-tight text-slate-950">
               Agenda Terdekat
             </h3>
             <Link
@@ -185,7 +185,7 @@ export default async function BerandaPage() {
                 <AgendaCard key={a.id} agenda={a} bolehKelola={bolehKelola} />
               ))
             ) : (
-              <p className="rounded-xl border border-slate-200/80 bg-white p-4 text-sm text-slate-500 text-center">
+              <p className="rounded-xl border border-slate-200/80 bg-white p-4 text-[13.5px] font-normal text-slate-400 text-center">
                 Belum ada agenda mendatang.
               </p>
             )}

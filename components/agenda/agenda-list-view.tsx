@@ -157,9 +157,9 @@ export function AgendaListView({
         <div className="space-y-6 pt-1">
           {[...kelompok.entries()].map(([key, items]) => (
             <section key={key}>
-              <h2 className="mb-2.5 px-1 text-[13px] font-semibold text-slate-600">
+              <h2 className="mb-2.5 px-1 text-[13.5px] font-bold text-slate-900 tracking-tight flex items-center">
                 {key === hariIniKey && (
-                  <span className="mr-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10.5px] font-medium text-brand-primary">
+                  <span className="mr-2 rounded-md border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10.5px] font-bold text-brand-primary uppercase tracking-wide">
                     Hari Ini
                   </span>
                 )}
