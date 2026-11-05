@@ -82,12 +82,11 @@ export default async function BerandaPage() {
 
         {/* Sapaan */}
         <section className="px-6 pb-4 pt-5">
-          <p className="text-[17px] text-slate-700">{salam(now)},</p>
-          <h2 className="mt-0.5 flex items-center gap-1.5 text-[27px] font-extrabold leading-none tracking-tight">
-            {profil?.fullName ?? "Pengguna"}{" "}
-            <span className="text-2xl">👋</span>
+          <p className="text-[15px] font-medium text-slate-500">{salam(now)},</p>
+          <h2 className="mt-0.5 text-[26px] font-extrabold leading-[1.2] tracking-tight text-slate-900">
+            {profil?.fullName ?? "Pengguna"}
           </h2>
-          <p className="mt-2 text-[14px] text-slate-500">
+          <p className="mt-1.5 text-[13.5px] font-medium text-slate-500">
             Semoga hari ini berjalan lancar.
           </p>
         </section>

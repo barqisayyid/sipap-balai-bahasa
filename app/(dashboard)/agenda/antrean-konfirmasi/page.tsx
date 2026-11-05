@@ -36,7 +36,7 @@ export default async function AntreanKonfirmasiPage() {
 
       {daftar.length === 0 ? (
         <p className="rounded-2xl bg-white p-5 text-center text-sm text-slate-500">
-          Semua agenda sudah terkonfirmasi. 🎉
+          Semua agenda sudah terkonfirmasi.
         </p>
       ) : (
         <div className="space-y-5">

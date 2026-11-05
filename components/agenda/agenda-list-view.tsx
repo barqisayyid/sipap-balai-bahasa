@@ -16,7 +16,7 @@ const FILTER: { kunci: FilterAgenda; label: string }[] = [
 
 const PESAN_KOSONG: Record<FilterAgenda, string> = {
   mendatang: "Belum ada agenda mendatang.",
-  menunggu: "Semua agenda sudah terkonfirmasi. 🎉",
+  menunggu: "Semua agenda sudah terkonfirmasi.",
   semua: "Belum ada agenda sama sekali.",
 };
 
