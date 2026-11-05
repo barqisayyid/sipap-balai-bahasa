@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { bolehKelolaAgenda, getProfil } from "@/lib/auth";
 import {
   createAgenda,
@@ -102,7 +102,7 @@ export async function simpanAgenda(
   revalidatePath("/");
   revalidatePath("/kalender");
   revalidatePath("/agenda");
-  redirect(`/agenda/${id}?baru=1`);
+  redirect(`/agenda/${id}?baru=1`, RedirectType.replace);
 }
 
 export async function perbaruiAgenda(
@@ -190,7 +190,7 @@ export async function perbaruiAgenda(
   revalidatePath("/kalender");
   revalidatePath("/agenda");
   revalidatePath(`/agenda/${id}`);
-  redirect(`/agenda/${id}?edit=1`);
+  redirect(`/agenda/${id}?edit=1`, RedirectType.replace);
 }
 
 export async function hapusAgenda(

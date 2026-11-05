@@ -2,6 +2,7 @@ interface MinangWatermarkProps {
   className?: string;
   opacity?: number;
   color?: "white" | "emerald" | string;
+  fadeLeft?: boolean;
 }
 
 /**
@@ -12,6 +13,7 @@ export function MinangWatermark({
   className = "pointer-events-none absolute inset-0 overflow-hidden",
   opacity = 0.13,
   color = "white",
+  fadeLeft = true,
 }: MinangWatermarkProps) {
   const isEmerald = color === "emerald" || color === "#0A5C36";
 
@@ -22,8 +24,21 @@ export function MinangWatermark({
     ? "/images/motif-minang-emerald.png"
     : "/images/motif-minang.png";
 
+  const maskStyle = fadeLeft
+    ? {
+        maskImage:
+          "linear-gradient(to right, transparent 0%, transparent 25%, black 70%, black 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent 0%, transparent 25%, black 70%, black 100%)",
+      }
+    : undefined;
+
   return (
-    <div className={className} aria-hidden="true" style={{ opacity }}>
+    <div
+      className={className}
+      aria-hidden="true"
+      style={{ opacity, ...maskStyle }}
+    >
       <picture>
         <source srcSet={webpSrc} type="image/webp" />
         <img

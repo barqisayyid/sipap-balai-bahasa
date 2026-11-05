@@ -66,7 +66,10 @@ export default async function DetailAgendaPage({
       {/* Top Bar Navigasi */}
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200/80 bg-white/95 px-4 py-3 backdrop-blur-md">
         <div className="flex items-center gap-2">
-          <BackButton fallback={tgl ? `/kalender?tgl=${tgl}` : "/agenda"} />
+          <BackButton
+            fallback={tgl ? `/kalender?tgl=${tgl}` : "/agenda"}
+            forceFallback={Boolean(sp.edit || sp.baru)}
+          />
           <span className="text-[14px] font-semibold text-slate-800">
             Detail Agenda
           </span>
@@ -85,7 +88,7 @@ export default async function DetailAgendaPage({
         </div>
       </header>
 
-      <main className="flex-1 bg-slate-50/60 pb-16">
+      <main className="flex-1 bg-slate-50/60 pb-6">
         <div className="mx-auto max-w-lg space-y-3.5 p-4">
           {/* Banner Sukses (jika baru dibuat atau diedit) */}
           {sp.baru && (
@@ -103,9 +106,19 @@ export default async function DetailAgendaPage({
           <section className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 shadow-2xs">
             {/* Watermark Ornamen Tradisional Minangkabau (image.svg) */}
             <MinangWatermark
-              opacity={0.045}
+              opacity={0.065}
               color="emerald"
               className="pointer-events-none absolute inset-0 overflow-hidden"
+            />
+
+            {/* Gradient putih pelindung kontras teks: sisi kiri 100% bersih, tajam, dan mudah dibaca */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(90deg, #ffffff 0%, #ffffff 32%, rgba(255, 255, 255, 0.85) 60%, transparent 95%)",
+              }}
+              aria-hidden="true"
             />
 
             <div className="relative z-10">

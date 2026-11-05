@@ -23,7 +23,6 @@ import {
 } from "@/lib/date";
 import {
   MinangWatermark,
-  DoubleHairlineRule,
 } from "@/components/ui/minang-motif";
 
 export default async function BerandaPage() {
@@ -102,8 +101,8 @@ export default async function BerandaPage() {
                 </Link>
               </div>
 
-              {/* Garis Ganda Naskah Dinas (*Double-Hairline Rule*) */}
-              <DoubleHairlineRule variant="light" className="my-3.5" />
+              {/* Garis Pembatas Tunggal Bersih */}
+              <div className="my-3.5 border-t border-white/15" />
 
               {/* Baris Bawah: Angka Tanggal & Ringkasan Agenda Hari Ini */}
               <div className="flex items-center gap-3">

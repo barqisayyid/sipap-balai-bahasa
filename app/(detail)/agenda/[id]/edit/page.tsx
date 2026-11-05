@@ -29,7 +29,7 @@ export default async function EditAgendaPage({
     <div className="min-h-dvh bg-white">
       {/* Bar atas */}
       <nav className="sticky top-0 z-10 flex items-center gap-2.5 border-b border-slate-100 bg-white/95 px-5 py-3 backdrop-blur-xs">
-        <BackButton fallback={`/agenda/${agenda.id}`} />
+        <BackButton href={`/agenda/${agenda.id}`} fallback={`/agenda/${agenda.id}`} />
         <div className="min-w-0 flex-1">
           <h1 className="truncate text-[16px] font-semibold tracking-tight text-slate-900">
             Ubah Agenda
