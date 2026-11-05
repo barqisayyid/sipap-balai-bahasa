@@ -14,37 +14,37 @@ export default async function AntreanKonfirmasiPage() {
   const daftar = await getDaftarAgenda("menunggu", getNow());
 
   return (
-    <div className="px-5 pt-6">
-      <section className="mb-5 mt-2 flex items-center justify-between">
-        <div className="flex items-center gap-3.5">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-amber-light text-[#EA580C]">
-            <BellRing className="h-6 w-6" />
+    <div className="px-5 pt-5 pb-24">
+      <section className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-700">
+            <BellRing className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-[#16201a]">
+            <h1 className="text-[17px] font-semibold leading-tight tracking-tight text-slate-900">
               Antrean Konfirmasi
             </h1>
-            <p className="text-xs text-slate-500">
-              Agenda yang belum ditanggapi pimpinan
+            <p className="text-[11px] text-slate-500">
+              Agenda yang menunggu tanggapan kehadiran
             </p>
           </div>
         </div>
-        <span className="text-xs font-semibold text-slate-500">
+        <span className="rounded-md border border-slate-200/80 bg-slate-50 px-2 py-0.5 text-xs font-medium text-slate-600">
           {daftar.length} agenda
         </span>
       </section>
 
       {daftar.length === 0 ? (
-        <p className="rounded-2xl bg-white p-5 text-center text-sm text-slate-500">
+        <p className="rounded-xl border border-slate-200/80 bg-white p-6 text-center text-sm font-medium text-slate-500">
           Semua agenda sudah terkonfirmasi.
         </p>
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-4">
           {daftar.map((a) => (
-            <div key={a.id}>
+            <div key={a.id} className="space-y-1">
               <AgendaCard agenda={a} bolehKelola={bolehKelola} />
               {pilihan.length > 0 && (
-                <div className="px-1">
+                <div className="px-0.5">
                   <StatusAksi agendaId={a.id} pilihan={pilihan} />
                 </div>
               )}

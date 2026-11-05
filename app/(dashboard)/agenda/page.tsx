@@ -24,17 +24,17 @@ export default async function DaftarAgendaPage({
   const daftar = await getDaftarAgenda(filter, now);
 
   return (
-    <div className="px-5 pt-6 pb-24">
-      <section className="mb-4 mt-2 flex items-center justify-between">
-        <div className="flex items-center gap-3.5">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#E8F5EE] text-brand-primary">
-            <List className="h-6 w-6" />
+    <div className="px-5 pt-5 pb-24">
+      <section className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50 text-brand-primary">
+            <List className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-[#16201a]">
+            <h1 className="text-[17px] font-semibold tracking-tight text-slate-900">
               Daftar Agenda
             </h1>
-            <p className="text-[11.5px] font-semibold text-slate-400">
+            <p className="text-[11px] text-slate-500">
               {daftar.length} agenda terdata
             </p>
           </div>

@@ -8,20 +8,24 @@ import {
   CalendarDays,
   Check,
   CheckCheck,
-  ChevronRight,
   Clock,
   CornerUpRight,
   MapPin,
   Shirt,
+  Users,
   X,
 } from "lucide-react";
 import { BackButton } from "@/components/layout/back-button";
 import { AgendaMenu } from "@/components/agenda/agenda-menu";
-import { HeroKalender } from "@/components/agenda/hero-kalender";
 import { getAgendaById } from "@/lib/data/agenda";
 import { STATUS_STYLE, getInfoStatusLifecycle } from "@/lib/status";
 import type { StatusAgenda } from "@/lib/types";
 import { dateKeyWIB, formatRentangJam, formatTanggalPanjang } from "@/lib/date";
+import {
+  MinangWatermark,
+  DoubleHairlineRule,
+  CapStempelKedinasan,
+} from "@/components/ui/minang-motif";
 
 const IKON_STATUS: Record<StatusAgenda, typeof Check> = {
   Hadir: Check,
@@ -52,198 +56,210 @@ export default async function DetailAgendaPage({
   );
   const tgl = dateKeyWIB(agenda.waktuMulai);
   const profil = await getProfil();
+  const bolehKelola = !!profil && bolehKelolaAgenda(profil.role);
   const lampiran = agenda.isSensitive ? [] : await getLampiranAgenda(agenda.id);
   const pilihanStatus = profil
     ? statusBolehDiubah(profil.role).filter((s) => s !== agenda.status)
     : [];
 
   return (
-    <div
-      className="flex min-h-dvh flex-col"
-      style={{
-        background:
-          "radial-gradient(circle at 100% 0%, #c4e4d4 0%, #e2f2ea 25%, #f6faf8 55%, #ffffff 80%)",
-      }}
-    >
-      {/* Bar atas */}
-      <nav className="flex items-center justify-between px-6 pb-1 pt-5">
-        <BackButton fallback="/kalender" />
-        <AgendaMenu
-          agenda={agenda}
-          bolehKelola={!!profil && bolehKelolaAgenda(profil.role)}
-        />
-      </nav>
+    <div className="flex min-h-dvh flex-col bg-white">
+      {/* Top Bar Navigasi */}
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200/80 bg-white/95 px-4 py-3 backdrop-blur-md">
+        <div className="flex items-center gap-2">
+          <BackButton fallback={tgl ? `/kalender?tgl=${tgl}` : "/agenda"} />
+          <span className="text-[14px] font-semibold text-slate-800">
+            Detail Agenda
+          </span>
+        </div>
 
-      <main className="flex flex-1 flex-col justify-between px-7 pt-1">
-        <div>
-          {sp.baru === "1" && (
-            <div
-              role="status"
-              className="mb-3 flex items-center gap-2 rounded-2xl border border-[#D5EFE0] bg-brand-mint px-4 py-3 text-[13px] font-semibold text-brand-primary"
+        <div className="flex items-center gap-1">
+          {bolehKelola && (
+            <Link
+              href={`/agenda/${agenda.id}/edit`}
+              className="rounded-lg px-2.5 py-1.5 text-[12px] font-medium text-slate-700 hover:bg-slate-100 transition-colors"
             >
-              <Check className="h-4 w-4 shrink-0" strokeWidth={3} />
-              Agenda berhasil disimpan.
+              Ubah
+            </Link>
+          )}
+          <AgendaMenu agenda={agenda} bolehKelola={bolehKelola} />
+        </div>
+      </header>
+
+      <main className="flex-1 bg-slate-50/60 pb-16">
+        <div className="mx-auto max-w-lg space-y-3.5 p-4">
+          {/* Banner Sukses (jika baru dibuat atau diedit) */}
+          {sp.baru && (
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-[13px] font-medium text-emerald-900">
+              Agenda baru berhasil dijadwalkan.
             </div>
           )}
-          {sp.edit === "1" && (
-            <div
-              role="status"
-              className="mb-3 flex items-center gap-2 rounded-2xl border border-[#D5EFE0] bg-brand-mint px-4 py-3 text-[13px] font-semibold text-brand-primary"
-            >
-              <Check className="h-4 w-4 shrink-0" strokeWidth={3} />
+          {sp.edit && (
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-[13px] font-medium text-emerald-900">
               Perubahan agenda berhasil disimpan.
             </div>
           )}
-          {/* Ilustrasi */}
-          <section className="relative my-2 flex items-center justify-center">
-            <div className="absolute -top-2 h-28 w-56 rounded-full bg-[#d8eee3]/65 blur-xl" />
-            <div className="absolute right-9 top-4 h-12 w-12 rounded-full bg-[#c9e8d7]/80" />
-            <div className="relative h-48 w-48 drop-shadow-[0_16px_24px_rgba(30,70,50,0.14)]">
-              <HeroKalender />
+
+          {/* Kartu Lembar Dokumen Agenda Resmi */}
+          <section className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 shadow-2xs">
+            {/* Watermark Ornamen Tradisional Minangkabau (image.svg) */}
+            <MinangWatermark
+              opacity={0.08}
+              color="emerald"
+              className="pointer-events-none absolute right-0 top-0 h-44 w-64 overflow-hidden"
+            />
+
+            <div className="relative z-10">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
+                  <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">
+                    Agenda Resmi Balai Bahasa
+                  </span>
+                </div>
+                {agenda.nomorSurat && (
+                  <span className="text-[11.5px] font-medium text-slate-500 truncate max-w-[150px]">
+                    No. {agenda.nomorSurat}
+                  </span>
+                )}
+              </div>
+
+              <div className="mt-3 flex items-start justify-between gap-3">
+                <div className="flex-1">
+                  <h1 className="text-[18px] font-semibold leading-snug tracking-tight text-slate-900 [text-wrap:balance]">
+                    {agenda.perihal}
+                  </h1>
+                  {agenda.pengirim && (
+                    <p className="mt-1 text-[12.5px] text-slate-600">
+                      Penyelenggara:{" "}
+                      <span className="font-medium text-slate-800">
+                        {agenda.pengirim}
+                      </span>
+                    </p>
+                  )}
+                </div>
+
+                {/* Stempel Cap Kedinasan Resmi */}
+                <CapStempelKedinasan status={agenda.status} className="shrink-0 mt-0.5" />
+              </div>
+
+              {/* Garis Ganda Naskah Dinas */}
+              <DoubleHairlineRule variant="dark" className="my-3" />
+
+              {/* Rincian Waktu & Lokasi */}
+              <div className="space-y-2.5 text-[13px]">
+                <div className="flex items-start gap-2.5 text-slate-700">
+                  <CalendarDays className="h-4 w-4 mt-0.5 text-slate-500 shrink-0" />
+                  <div className="leading-tight">
+                    <p className="font-medium text-slate-900">
+                      {formatTanggalPanjang(agenda.waktuMulai)}
+                    </p>
+                    <p className="mt-0.5 text-[12px] font-medium tabular-nums text-slate-600">
+                      {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)} WIB
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 text-slate-700">
+                  <MapPin className="h-4 w-4 text-slate-500 shrink-0" />
+                  {agenda.linkMaps ? (
+                    <a
+                      href={agenda.linkMaps}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-brand-primary underline underline-offset-2 hover:text-brand-dark"
+                    >
+                      {agenda.lokasi}
+                    </a>
+                  ) : (
+                    <span className="font-medium text-slate-800">{agenda.lokasi}</span>
+                  )}
+                </div>
+
+                {agenda.pakaian && (
+                  <div className="flex items-center gap-2.5 text-slate-700">
+                    <Shirt className="h-4 w-4 text-slate-400 shrink-0" />
+                    <span className="text-slate-600">
+                      Pakaian: <span className="font-medium text-slate-800">{agenda.pakaian}</span>
+                    </span>
+                  </div>
+                )}
+
+                {agenda.pendamping && (
+                  <div className="flex items-center gap-2.5 text-slate-700">
+                    <Users className="h-4 w-4 text-slate-400 shrink-0" />
+                    <span className="text-slate-600">
+                      Pendamping: <span className="font-medium text-slate-800">{agenda.pendamping}</span>
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </section>
 
-          {/* Judul */}
-          <section className="mt-3">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#dcf1e5] px-3 py-1 text-[13px] font-semibold tracking-wide text-[#136a3e]">
-              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[#136a3e] text-white">
-                <Check className="h-2.5 w-2.5" strokeWidth={4} />
-              </span>
-              Agenda Resmi
-            </div>
-            <h1 className="mt-3 text-[26px] font-extrabold leading-[1.25] tracking-tight text-[#091b29]">
-              {agenda.perihal}
-            </h1>
-          </section>
-
-          {/* Metadata */}
-          <section className="mt-5 space-y-3.5 text-[14.5px]">
-            <div className="flex items-start gap-4">
-              <CalendarDays
-                className="mt-0.5 h-5 w-5 shrink-0 text-slate-500"
-                strokeWidth={1.8}
-              />
-              <div className="leading-tight">
-                <p className="font-semibold text-slate-700">
-                  {formatTanggalPanjang(agenda.waktuMulai)}
-                </p>
-                <p className="mt-0.5 font-medium text-slate-500">
-                  {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)}
-                </p>
+          {/* Kartu Status Kehadiran */}
+          <section>
+            <div className={`rounded-xl border border-slate-200/80 p-3.5 ${gaya.card}`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white ${gaya.circle}`}>
+                    {infoLifecycle.ikon === "CheckCheck" ? (
+                      <CheckCheck className="h-4 w-4" strokeWidth={2.4} />
+                    ) : (
+                      <IkonStatus className="h-4 w-4" strokeWidth={2.4} />
+                    )}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[11px] font-medium text-slate-500">
+                        Status Kehadiran
+                      </span>
+                      {infoLifecycle.fase === "berlangsung" && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
+                      )}
+                    </div>
+                    <span className="block text-[14.5px] font-semibold leading-tight text-slate-900">
+                      {infoLifecycle.labelLengkap}
+                    </span>
+                    <p className="mt-0.5 text-[11.5px] text-slate-500 leading-tight">
+                      {infoLifecycle.keterangan}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <MapPin
-                className="h-5 w-5 shrink-0 text-slate-500"
-                strokeWidth={1.8}
-              />
-              {agenda.linkMaps ? (
-                <a
-                  href={agenda.linkMaps}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4"
-                >
-                  {agenda.lokasi}
-                </a>
-              ) : (
-                <span className="font-semibold text-slate-700">
-                  {agenda.lokasi}
-                </span>
-              )}
-            </div>
-
-            {agenda.pakaian && (
-              <div className="flex items-center gap-4">
-                <Shirt
-                  className="h-5 w-5 shrink-0 text-slate-500"
-                  strokeWidth={1.8}
+            {/* Aksi Ubah Status (Kepala Balai / Pemantau) */}
+            {pilihanStatus.length > 0 && (
+              <div className="mt-2.5">
+                <StatusAksi
+                  agendaId={agenda.id}
+                  pilihan={pilihanStatus}
                 />
-                <span className="font-semibold text-slate-700">
-                  {agenda.pakaian}
-                </span>
               </div>
             )}
           </section>
 
-          {/* Status kehadiran */}
-          <section className="mt-5">
-            <div
-              className={`flex items-center justify-between rounded-[22px] px-5 py-4 ${gaya.card} border border-slate-100/60 shadow-xs`}
-            >
-              <div className="flex items-center gap-3.5">
-                <div
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white shadow-sm ${gaya.circle}`}
-                >
-                  {infoLifecycle.ikon === "CheckCheck" ? (
-                    <CheckCheck className="h-5 w-5" strokeWidth={2.6} />
-                  ) : (
-                    <IkonStatus className="h-5 w-5" strokeWidth={2.8} />
-                  )}
-                </div>
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="block text-xs font-semibold text-slate-600">
-                      Status Kehadiran
-                    </span>
-                    {infoLifecycle.fase === "berlangsung" && (
-                      <span className="relative flex h-2 w-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600" />
-                      </span>
-                    )}
-                  </div>
-                  <span
-                    className={`block text-[17px] font-bold leading-tight ${gaya.teks}`}
-                  >
-                    {infoLifecycle.labelLengkap}
-                  </span>
-                  <p className="mt-0.5 text-[11.5px] font-medium text-slate-500 leading-tight">
-                    {infoLifecycle.keterangan}
-                  </p>
-                </div>
-              </div>
-              <ChevronRight
-                className={`h-5 w-5 shrink-0 ${gaya.teks}`}
-                strokeWidth={2.4}
-              />
-            </div>
-          </section>
-          {pilihanStatus.length > 0 && (
-            <StatusAksi agendaId={agenda.id} pilihan={pilihanStatus} />
-          )}
-
-          {/* Catatan */}
-          <section className="mt-5">
-            <h2 className="text-[15px] font-extrabold tracking-tight text-slate-900">
-              Catatan Agenda
-            </h2>
-            <p className="mt-1 text-[13.5px] leading-snug text-slate-500">
-              {agenda.catatan ?? "Tidak ada catatan."}
-            </p>
-          </section>
+          {/* Panel Berkas Surat & Lampiran */}
           <SuratPanel
             agendaId={agenda.id}
             lampiran={lampiran}
-            bolehKelola={!!profil && bolehKelolaAgenda(profil.role)}
+            bolehKelola={bolehKelola}
             sensitif={agenda.isSensitive}
           />
-        </div>
 
-        {/* Tombol aksi */}
-        <footer
-          className="pt-4"
-          style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
-        >
-          <Link
-            href={`/kalender?bulan=${tgl.slice(0, 7)}&tgl=${tgl}`}
-            className="flex w-full items-center justify-center gap-2 rounded-full border-[1.5px] border-[#136a3e] py-3.5 text-[15px] font-bold text-[#136a3e] transition-all hover:bg-[#136a3e]/5 active:scale-[0.99]"
-          >
-            <CalendarDays className="h-5 w-5" strokeWidth={2} />
-            Lihat di Kalender
-          </Link>
-        </footer>
+          {/* Catatan Tambahan */}
+          {agenda.catatan && (
+            <section className="rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-2xs">
+              <h2 className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                Catatan Tambahan
+              </h2>
+              <p className="mt-1.5 whitespace-pre-wrap text-[13px] leading-relaxed text-slate-700">
+                {agenda.catatan}
+              </p>
+            </section>
+          )}
+        </div>
       </main>
     </div>
   );

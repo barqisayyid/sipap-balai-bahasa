@@ -178,12 +178,12 @@ export function AgendaMenu({
         aria-label="Pilihan lainnya"
         className={
           variant === "compact"
-            ? "flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 active:scale-95"
-            : "flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-slate-800 shadow-[0_2px_10px_rgba(0,0,0,0.06)] backdrop-blur-md transition-all hover:bg-white active:scale-95"
+            ? "flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+            : "flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200/80 bg-white text-slate-700 shadow-2xs transition-colors hover:bg-slate-50"
         }
       >
         <MoreHorizontal
-          className={variant === "compact" ? "h-4 w-4" : "h-5 w-5"}
+          className={variant === "compact" ? "h-4 w-4" : "h-4.5 w-4.5"}
         />
       </button>
 
@@ -202,15 +202,15 @@ export function AgendaMenu({
 
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`absolute right-0 z-30 w-56 rounded-3xl border border-slate-100 bg-white p-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.18)] animate-in fade-in zoom-in-95 duration-150 ${
-              variant === "compact" ? "top-9" : "top-13"
+            className={`absolute right-0 z-30 w-52 rounded-xl border border-slate-200/90 bg-white p-1 shadow-[0_12px_32px_rgba(0,0,0,0.08)] ${
+              variant === "compact" ? "top-8" : "top-11"
             }`}
           >
             {bolehKelola && (
               <Link
                 href={`/agenda/${agenda.id}/edit`}
                 onClick={() => handleSetBuka(false)}
-                className="flex w-full items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-left text-[13.5px] font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-primary"
+                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13px] font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-primary"
               >
                 <Edit3 className="h-4 w-4 text-brand-primary" />
                 Ubah Data Agenda
@@ -220,16 +220,16 @@ export function AgendaMenu({
             <button
               type="button"
               onClick={handleSalin}
-              className="flex w-full items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-left text-[13.5px] font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-primary"
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13px] font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-primary"
             >
               {tersalin ? (
                 <>
                   <Check className="h-4 w-4 text-emerald-600" />
-                  <span className="text-emerald-700">Tersalin ke Klip!</span>
+                  <span className="text-emerald-700">Tersalin ke papan klip</span>
                 </>
               ) : (
                 <>
-                  <Copy className="h-4 w-4 text-slate-500" />
+                  <Copy className="h-4 w-4 text-slate-400" />
                   Salin Info Agenda
                 </>
               )}
@@ -238,9 +238,9 @@ export function AgendaMenu({
             <button
               type="button"
               onClick={handleUnduhICS}
-              className="flex w-full items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-left text-[13.5px] font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-primary"
+              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13px] font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-primary"
             >
-              <CalendarPlus className="h-4 w-4 text-slate-500" />
+              <CalendarPlus className="h-4 w-4 text-slate-400" />
               Simpan ke Kalender (.ics)
             </button>
 
@@ -255,7 +255,7 @@ export function AgendaMenu({
                     handleSetBuka(false);
                     setKonfirmasiHapus(true);
                   }}
-                  className="flex w-full items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-left text-[13.5px] font-semibold text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13px] font-medium text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
                 >
                   <Trash2 className="h-4 w-4 text-red-600" />
                   Hapus Agenda
@@ -271,42 +271,42 @@ export function AgendaMenu({
         konfirmasiHapus &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-5 backdrop-blur-xs animate-in fade-in duration-150"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 p-5 backdrop-blur-2xs"
             onClick={() => {
               if (!isPending) setKonfirmasiHapus(false);
             }}
           >
             <div
-              className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl"
+              className="w-full max-w-sm rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="mx-auto mb-3.5 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-600">
-                <Trash2 className="h-6 w-6" />
+              <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600">
+                <Trash2 className="h-5 w-5" />
               </div>
 
-              <h3 className="text-center text-[17px] font-extrabold text-slate-900">
+              <h3 className="text-center text-[16px] font-semibold text-slate-900">
                 Hapus Agenda Kedinasan?
               </h3>
-              <p className="mt-2 text-center text-[13px] leading-relaxed text-slate-500">
+              <p className="mt-1.5 text-center text-[13px] leading-relaxed text-slate-500">
                 Apakah Anda yakin ingin menghapus agenda{" "}
-                <span className="font-bold text-slate-800">
+                <span className="font-semibold text-slate-800">
                   &ldquo;{agenda.perihal}&rdquo;
                 </span>
                 ? Agenda ini akan dibatalkan dan dihapus dari kalender.
               </p>
 
               {pesanError && (
-                <div className="mt-3 rounded-xl bg-red-50 p-2.5 text-center text-xs font-semibold text-red-600">
+                <div className="mt-2.5 rounded-lg bg-red-50 p-2 text-center text-xs font-medium text-red-600">
                   {pesanError}
                 </div>
               )}
 
-              <div className="mt-5 grid grid-cols-2 gap-2.5">
+              <div className="mt-4 grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   disabled={isPending}
                   onClick={() => setKonfirmasiHapus(false)}
-                  className="rounded-2xl border border-slate-200 py-3 text-[14px] font-bold text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50"
+                  className="rounded-xl border border-slate-200 py-2.5 text-[13.5px] font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50"
                 >
                   Batal
                 </button>
@@ -314,7 +314,7 @@ export function AgendaMenu({
                   type="button"
                   disabled={isPending}
                   onClick={handleHapus}
-                  className="flex items-center justify-center gap-2 rounded-2xl bg-red-600 py-3 text-[14px] font-bold text-white shadow-sm transition-all hover:bg-red-700 active:scale-[0.98] disabled:opacity-50"
+                  className="flex items-center justify-center gap-1.5 rounded-xl bg-red-600 py-2.5 text-[13.5px] font-medium text-white shadow-2xs transition-colors hover:bg-red-700 disabled:opacity-50"
                 >
                   {isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

@@ -32,9 +32,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className="bg-slate-200 font-sans text-slate-900 antialiased">
-        {/* Kolom selebar HP; di desktop tampil di tengah layar */}
-        <div className="relative mx-auto min-h-dvh w-full max-w-[430px] bg-brand-surface sm:shadow-2xl">
+      <body className="bg-slate-100 font-sans text-slate-900 antialiased selection:bg-brand-primary/10 selection:text-brand-primary">
+        {/* Kontainer aplikasi: mobile-first, berbingkai bersih di desktop */}
+        <div className="relative mx-auto min-h-dvh w-full max-w-[430px] bg-white sm:border-x sm:border-slate-200/80 sm:shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
           {children}
         </div>
         <RegistrasiSW />

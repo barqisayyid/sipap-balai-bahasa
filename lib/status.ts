@@ -32,28 +32,28 @@ export const STATUS_STYLE: Record<
 > = {
   Hadir: {
     accent: "bg-brand-primary",
-    iconBox: "bg-[#EAF7EE] text-brand-primary",
-    badge: "bg-brand-mint text-brand-primary border-[#D5EFE0]",
+    iconBox: "bg-emerald-50 text-brand-primary",
+    badge: "bg-emerald-50/80 text-brand-primary border-emerald-200/80",
     dot: "bg-brand-primary",
-    card: "bg-[#f0f8f4]",
-    circle: "bg-[#136a3e]",
-    teks: "text-[#115e37]",
+    card: "bg-emerald-50/40",
+    circle: "bg-brand-primary",
+    teks: "text-brand-primary",
   },
   "Menunggu Konfirmasi": {
-    accent: "bg-brand-accent",
-    iconBox: "bg-[#FFF3E8] text-[#EA580C]",
-    badge: "bg-brand-amber-light text-[#EA580C] border-[#FEDDC3]",
+    accent: "bg-amber-600",
+    iconBox: "bg-amber-50 text-amber-700",
+    badge: "bg-amber-50 text-amber-700 border-amber-200",
     dot: "bg-amber-500",
-    card: "bg-[#FFF6EC]",
-    circle: "bg-[#EA580C]",
-    teks: "text-[#C2410C]",
+    card: "bg-amber-50/40",
+    circle: "bg-amber-600",
+    teks: "text-amber-800",
   },
   Didisposisikan: {
     accent: "bg-sky-600",
     iconBox: "bg-sky-50 text-sky-700",
     badge: "bg-sky-50 text-sky-700 border-sky-200",
     dot: "bg-sky-600",
-    card: "bg-sky-50",
+    card: "bg-sky-50/40",
     circle: "bg-sky-600",
     teks: "text-sky-800",
   },
@@ -62,7 +62,7 @@ export const STATUS_STYLE: Record<
     iconBox: "bg-red-50 text-red-600",
     badge: "bg-red-50 text-red-700 border-red-200",
     dot: "bg-red-500",
-    card: "bg-red-50",
+    card: "bg-red-50/40",
     circle: "bg-red-600",
     teks: "text-red-700",
   },
@@ -121,7 +121,7 @@ export function getInfoStatusLifecycle(
         keterangan:
           "Waktu pelaksanaan kegiatan telah berlalu tanpa ada konfirmasi kehadiran.",
         fase,
-        badgeCls: "bg-slate-100 text-slate-500 border-slate-200",
+        badgeCls: "bg-slate-100 text-slate-600 border-slate-200",
         ikon: "Clock",
       };
     }
@@ -130,7 +130,7 @@ export function getInfoStatusLifecycle(
       labelLengkap: "Menunggu Konfirmasi",
       keterangan: "Menunggu konfirmasi kesediaan kehadiran dari pimpinan.",
       fase,
-      badgeCls: "bg-brand-amber-light text-[#EA580C] border-[#FEDDC3]",
+      badgeCls: "bg-amber-50 text-amber-700 border-amber-200",
       ikon: "Clock",
     };
   }
@@ -155,7 +155,7 @@ export function getInfoStatusLifecycle(
         keterangan:
           "Kegiatan sedang berlangsung oleh staf/pejabat yang ditugaskan.",
         fase,
-        badgeCls: "bg-sky-100 text-sky-800 border-sky-300 font-bold",
+        badgeCls: "bg-sky-50 text-sky-800 border-sky-200",
         ikon: "live-dot",
       };
     }
@@ -177,7 +177,7 @@ export function getInfoStatusLifecycle(
       keterangan:
         "Agenda telah selesai dilaksanakan dan dihadiri oleh Kepala Balai.",
       fase,
-      badgeCls: "bg-[#EBF7EE] text-[#0A5C36] border-[#CEEBD6]",
+      badgeCls: "bg-emerald-50/80 text-brand-primary border-emerald-200/80",
       ikon: "CheckCheck",
     };
   }
@@ -188,7 +188,7 @@ export function getInfoStatusLifecycle(
       keterangan:
         "Agenda sedang berlangsung saat ini dan sedang dihadiri oleh Kepala Balai.",
       fase,
-      badgeCls: "bg-emerald-100 text-[#0A5C36] border-emerald-300 font-bold",
+      badgeCls: "bg-emerald-50 text-brand-primary border-emerald-200",
       ikon: "live-dot",
     };
   }
@@ -197,7 +197,7 @@ export function getInfoStatusLifecycle(
     labelLengkap: "Terkonfirmasi Hadir",
     keterangan: "Kepala Balai terkonfirmasi bersedia menghadiri agenda ini.",
     fase,
-    badgeCls: "bg-brand-mint text-brand-primary border-[#D5EFE0]",
+    badgeCls: "bg-emerald-50/80 text-brand-primary border-emerald-200/80",
     ikon: "CheckCircle2",
   };
 }

@@ -77,19 +77,19 @@ export function AgendaListView({
     <div className="space-y-4">
       {/* Kotak Pencarian Live */}
       <div className="relative">
-        <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+        <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Cari perihal, lokasi, pengundang..."
-          className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-10 text-[14px] text-slate-800 placeholder:text-slate-400 shadow-xs transition-all focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
+          placeholder="Cari agenda"
+          className="w-full rounded-xl border border-slate-200/90 bg-white py-2.5 pl-10 pr-9 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 shadow-2xs transition-colors focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary/20"
         />
         {sedangMencari && (
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
             aria-label="Hapus pencarian"
           >
             <X className="h-4 w-4" />
@@ -99,7 +99,7 @@ export function AgendaListView({
 
       {/* Filter Tab */}
       <nav
-        className="flex items-center gap-2 overflow-x-auto pb-1"
+        className="flex items-center gap-1.5 overflow-x-auto pb-1"
         aria-label="Filter"
       >
         {FILTER.map((f) => {
@@ -108,10 +108,10 @@ export function AgendaListView({
             <Link
               key={f.kunci}
               href={`/agenda?filter=${f.kunci}`}
-              className={`rounded-full px-4 py-2 text-[13px] font-bold transition-all ${
+              className={`rounded-lg px-3 py-1.5 text-[12.5px] font-medium transition-colors ${
                 on
-                  ? "border-brand-primary bg-brand-primary text-white shadow-xs"
-                  : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                  ? "bg-brand-primary text-white"
+                  : "border border-slate-200/90 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900"
               }`}
             >
               {f.label}
@@ -120,7 +120,7 @@ export function AgendaListView({
         })}
 
         {sedangMencari && (
-          <span className="ml-auto shrink-0 rounded-full bg-slate-100 px-3 py-1 text-[11.5px] font-semibold text-slate-600">
+          <span className="ml-auto shrink-0 rounded-md bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600">
             {hasil.length} hasil
           </span>
         )}
@@ -128,26 +128,26 @@ export function AgendaListView({
 
       {/* Konten Daftar Agenda */}
       {daftarAwal.length === 0 ? (
-        <p className="rounded-2xl border border-slate-100 bg-white p-6 text-center text-sm font-semibold text-slate-500 shadow-sm">
+        <p className="rounded-xl border border-slate-200/80 bg-white p-6 text-center text-sm font-medium text-slate-500">
           {PESAN_KOSONG[filterAktif]}
         </p>
       ) : hasil.length === 0 ? (
         /* Kondisi pencarian tidak ada hasil */
-        <div className="rounded-3xl border border-slate-100 bg-white p-8 text-center shadow-sm">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
-            <CalendarSearch className="h-6 w-6" />
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-7 text-center">
+          <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
+            <CalendarSearch className="h-5 w-5" />
           </div>
-          <h3 className="text-[15px] font-bold text-slate-800">
+          <h3 className="text-[14.5px] font-semibold text-slate-800">
             Agenda Tidak Ditemukan
           </h3>
-          <p className="mt-1 text-[13px] text-slate-500">
+          <p className="mt-1 text-[12.5px] text-slate-500">
             Tidak ada agenda yang cocok dengan kata kunci &ldquo;
             <span className="font-semibold text-slate-700">{query}</span>&rdquo;.
           </p>
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-[13px] font-semibold text-slate-700 transition-colors hover:bg-slate-100"
+            className="mt-3.5 inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-[12.5px] font-medium text-slate-700 transition-colors hover:bg-slate-50"
           >
             <X className="h-3.5 w-3.5" />
             Hapus Pencarian
@@ -157,9 +157,9 @@ export function AgendaListView({
         <div className="space-y-6 pt-1">
           {[...kelompok.entries()].map(([key, items]) => (
             <section key={key}>
-              <h2 className="mb-2.5 px-1 text-[13px] font-bold text-slate-500">
+              <h2 className="mb-2.5 px-1 text-[13px] font-semibold text-slate-600">
                 {key === hariIniKey && (
-                  <span className="mr-1.5 rounded-full bg-brand-mint px-2 py-0.5 text-[11px] text-brand-primary">
+                  <span className="mr-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10.5px] font-medium text-brand-primary">
                     Hari Ini
                   </span>
                 )}

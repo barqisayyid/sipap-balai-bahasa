@@ -13,9 +13,9 @@ export function BackButton({ fallback = "/" }: { fallback?: string }) {
       onClick={() =>
         window.history.length > 1 ? router.back() : router.push(fallback)
       }
-      className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-slate-800 shadow-[0_2px_10px_rgba(0,0,0,0.06)] backdrop-blur-md transition-all hover:bg-white active:scale-95"
+      className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200/80 bg-white text-slate-700 hover:bg-slate-50 transition-colors active:scale-95"
     >
-      <ChevronLeft className="h-5 w-5" strokeWidth={2.2} />
+      <ChevronLeft className="h-4 w-4" strokeWidth={2.2} />
     </button>
   );
 }

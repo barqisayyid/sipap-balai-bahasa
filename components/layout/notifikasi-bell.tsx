@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   ChevronRight,
   ExternalLink,
+  MapPin,
   MessageSquare,
   X,
 } from "lucide-react";
@@ -75,7 +76,7 @@ export function NotifikasiBell({ items, role }: NotifikasiBellProps) {
 
         {/* Badge Dinamis: hanya tampil jika ada agenda yang menunggu tanggapan */}
         {jumlah > 0 && (
-          <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-extrabold text-white ring-2 ring-white">
+          <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-semibold text-white ring-2 ring-white">
             {jumlah > 9 ? "9+" : jumlah}
           </span>
         )}
@@ -86,12 +87,12 @@ export function NotifikasiBell({ items, role }: NotifikasiBellProps) {
         <>
           {/* Backdrop transparan untuk klik luar di mobile */}
           <div
-            className="fixed inset-0 z-40 bg-slate-900/10 backdrop-blur-[1px] sm:hidden"
+            className="fixed inset-0 z-40 bg-slate-900/10 sm:hidden"
             onClick={() => setBuka(false)}
           />
 
           <div
-            className="absolute right-0 top-12 z-50 w-[calc(100vw-2rem)] max-w-[350px] rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_16px_40px_-8px_rgba(0,0,0,0.18)] sm:w-[370px]"
+            className="absolute right-0 top-12 z-50 w-[calc(100vw-2rem)] max-w-[350px] rounded-2xl border border-slate-200/90 bg-white p-4 shadow-[0_12px_32px_rgba(0,0,0,0.08)] sm:w-[370px]"
             style={{
               maxHeight: "calc(100vh - 120px)",
               overflowY: "auto",
@@ -100,33 +101,33 @@ export function NotifikasiBell({ items, role }: NotifikasiBellProps) {
             {/* Header Tray */}
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand-mint text-brand-primary">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-brand-primary">
                   <BellRing className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="text-[14.5px] font-bold text-slate-800">
+                  <h3 className="text-[14px] font-semibold text-slate-900">
                     Pemberitahuan
                   </h3>
-                  <p className="text-[11px] font-medium text-slate-400">
-                    Status agenda & koordinasi
+                  <p className="text-[11px] text-slate-500">
+                    Status agenda &amp; koordinasi
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-1.5">
                 {jumlah > 0 ? (
-                  <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-bold text-amber-700">
+                  <span className="rounded-md bg-amber-50 border border-amber-200 px-2 py-0.5 text-[11px] font-medium text-amber-800">
                     {jumlah} Menunggu
                   </span>
                 ) : (
-                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-700">
+                  <span className="rounded-md bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[11px] font-medium text-emerald-800">
                     Semua Beres
                   </span>
                 )}
                 <button
                   type="button"
                   onClick={() => setBuka(false)}
-                  className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+                  className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
                   aria-label="Tutup"
                 >
                   <X className="h-4 w-4" />
@@ -138,19 +139,19 @@ export function NotifikasiBell({ items, role }: NotifikasiBellProps) {
             <div className="mt-3 space-y-2.5">
               {jumlah === 0 ? (
                 <div className="py-6 text-center">
-                  <div className="mx-auto mb-2.5 flex h-11 w-11 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                    <CheckCircle2 className="h-6 w-6" />
+                  <div className="mx-auto mb-2.5 flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-400">
+                    <CheckCircle2 className="h-5 w-5" />
                   </div>
-                  <h4 className="text-[13.5px] font-bold text-slate-800">
+                  <h4 className="text-[13.5px] font-semibold text-slate-800">
                     Tidak Ada Agenda Tertunda
                   </h4>
                   <p className="mt-1 text-[11.5px] text-slate-500">
-                    Seluruh agenda kedinasan telah terkonfirmasi dengan rapi.
+                    Seluruh agenda kedinasan telah terkonfirmasi.
                   </p>
                 </div>
               ) : (
                 <>
-                  <div className="flex items-center justify-between px-1 text-[12px] font-bold text-slate-500">
+                  <div className="flex items-center justify-between px-1 text-[12px] font-semibold text-slate-500">
                     <span>Perlu Konfirmasi ({jumlah})</span>
                     <Link
                       href="/agenda/antrean-konfirmasi"
@@ -167,13 +168,13 @@ export function NotifikasiBell({ items, role }: NotifikasiBellProps) {
                         key={item.id}
                         href={`/agenda/${item.id}`}
                         onClick={() => setBuka(false)}
-                        className="group flex flex-col gap-1 rounded-2xl border border-amber-100 bg-amber-50/50 p-3 transition-colors hover:border-amber-200 hover:bg-amber-50"
+                        className="group flex flex-col gap-1 rounded-xl border border-slate-200/80 bg-slate-50/50 p-3 transition-colors hover:border-slate-300 hover:bg-slate-50"
                       >
                         <div className="flex items-start justify-between gap-2">
-                          <p className="text-[13px] font-bold leading-snug text-slate-800 group-hover:text-brand-primary">
+                          <p className="text-[13px] font-semibold leading-snug text-slate-900 group-hover:text-brand-primary">
                             {item.perihal}
                           </p>
-                          <span className="shrink-0 rounded-md bg-amber-200/70 px-1.5 py-0.5 text-[10px] font-semibold text-amber-800">
+                          <span className="shrink-0 rounded-md border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-800">
                             Menunggu
                           </span>
                         </div>
@@ -187,9 +188,10 @@ export function NotifikasiBell({ items, role }: NotifikasiBellProps) {
                             )}
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-400 truncate">
-                          📍 {item.lokasi}
-                        </p>
+                        <div className="flex items-center gap-1 text-[11px] text-slate-500 truncate">
+                          <MapPin className="h-3 w-3 text-slate-400 shrink-0" />
+                          <span className="truncate">{item.lokasi}</span>
+                        </div>
                       </Link>
                     ))}
 
@@ -203,7 +205,7 @@ export function NotifikasiBell({ items, role }: NotifikasiBellProps) {
                   <Link
                     href="/agenda/antrean-konfirmasi"
                     onClick={() => setBuka(false)}
-                    className="flex w-full items-center justify-center gap-1.5 rounded-2xl bg-[#EA580C] py-2.5 text-[13px] font-bold text-white shadow-sm transition-all hover:bg-[#C2410C] active:scale-[0.98]"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-brand-primary py-2.5 text-[13px] font-semibold text-white shadow-xs transition-colors hover:bg-brand-dark"
                   >
                     <span>Tanggapi di Antrean Konfirmasi</span>
                     <ChevronRight className="h-4 w-4" />

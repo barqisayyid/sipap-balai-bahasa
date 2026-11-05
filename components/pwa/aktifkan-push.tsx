@@ -140,8 +140,8 @@ export function AktifkanPush() {
   if (status === "memeriksa") return null;
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
-      <div className="flex items-center gap-2 text-[14px] font-bold text-slate-800">
+    <div className="rounded-xl border border-slate-200/80 bg-white p-3.5 shadow-2xs">
+      <div className="flex items-center gap-2 text-[13.5px] font-semibold text-slate-900">
         {aktif ? (
           <Bell className="h-4 w-4 text-brand-primary" />
         ) : (
@@ -151,7 +151,7 @@ export function AktifkanPush() {
       </div>
 
       {status === "perlu_instal" && (
-        <p className="mt-2 text-[13px] leading-snug text-slate-600">
+        <p className="mt-2 text-[12.5px] leading-snug text-slate-600">
           Di iPhone, notifikasi hanya bisa diaktifkan setelah SIPAP dipasang di
           Layar Utama. Ikuti langkah pada kartu di atas, buka SIPAP dari ikon
           barunya, lalu kembali ke halaman ini.
@@ -159,7 +159,7 @@ export function AktifkanPush() {
       )}
 
       {status === "tidak_didukung" && (
-        <p className="mt-2 text-[13px] leading-snug text-slate-600">
+        <p className="mt-2 text-[12.5px] leading-snug text-slate-500">
           Browser ini tidak mendukung notifikasi aplikasi. Pengingat tetap
           dikirim lewat WhatsApp.
         </p>
@@ -167,17 +167,17 @@ export function AktifkanPush() {
 
       {status === "siap" && (
         <>
-          <p className="mt-1.5 text-[12.5px] leading-snug text-slate-500">
+          <p className="mt-1.5 text-[12px] leading-snug text-slate-500">
             Dipakai bila pesan WhatsApp gagal terkirim.
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-2.5 flex flex-wrap gap-2">
             {aktif ? (
               <>
                 <button
                   type="button"
                   onClick={uji}
                   disabled={sibuk}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-brand-primary px-4 py-2.5 text-[13px] font-bold text-white hover:bg-brand-dark disabled:opacity-60"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-brand-primary px-3.5 py-2 text-[13px] font-medium text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
                 >
                   {sibuk && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                   Kirim notifikasi uji
@@ -186,7 +186,7 @@ export function AktifkanPush() {
                   type="button"
                   onClick={matikan}
                   disabled={sibuk}
-                  className="rounded-full border border-slate-300 px-4 py-2.5 text-[13px] font-bold text-slate-600 hover:bg-slate-50 disabled:opacity-60"
+                  className="rounded-xl border border-slate-200 px-3.5 py-2 text-[13px] font-medium text-slate-700 hover:bg-slate-50 transition-colors disabled:opacity-60"
                 >
                   Matikan
                 </button>
@@ -196,7 +196,7 @@ export function AktifkanPush() {
                 type="button"
                 onClick={aktifkan}
                 disabled={sibuk}
-                className="inline-flex items-center gap-1.5 rounded-full bg-brand-primary px-4 py-2.5 text-[13px] font-bold text-white hover:bg-brand-dark disabled:opacity-60"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-brand-primary px-3.5 py-2 text-[13px] font-medium text-white transition-colors hover:bg-brand-dark disabled:opacity-60"
               >
                 {sibuk && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                 Aktifkan di perangkat ini
@@ -209,7 +209,7 @@ export function AktifkanPush() {
       {pesan && (
         <p
           role={pesan.galat ? "alert" : "status"}
-          className={`mt-2 text-xs font-semibold ${pesan.galat ? "text-red-600" : "text-brand-primary"}`}
+          className={`mt-2 text-xs font-medium ${pesan.galat ? "text-red-600" : "text-brand-primary"}`}
         >
           {pesan.teks}
         </p>

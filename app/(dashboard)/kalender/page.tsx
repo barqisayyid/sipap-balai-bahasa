@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import { AgendaRow } from "@/components/agenda/agenda-row";
 import { LiveClock } from "@/components/layout/live-clock";
 import { getAgendaBulan } from "@/lib/data/agenda";
@@ -61,63 +61,61 @@ export default async function KalenderPage({
   const grid = buatGridBulan(tb);
 
   return (
-    <div className="px-5 pt-6 pb-24">
+    <div className="px-5 pt-5 pb-24">
       {/* Header dengan Jam Live */}
-      <section className="mb-5 mt-2 flex items-center justify-between">
-        <div className="flex items-center gap-3.5">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#E8F5EE] text-brand-primary">
-            <CalendarDays className="h-6 w-6" />
+      <section className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50 text-brand-primary">
+            <CalendarDays className="h-5 w-5" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-[#16201a]">
-            Kalender Agenda
-          </h1>
+          <div>
+            <h1 className="text-[17px] font-semibold tracking-tight text-slate-900">
+              Kalender Agenda
+            </h1>
+            <p className="text-[11px] text-slate-500">
+              Balai Bahasa Sumatera Barat
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <LiveClock variant="header" />
-          <button
-            type="button"
-            aria-label="Cari agenda"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-slate-800 hover:bg-black/5 active:scale-95"
-          >
-            <Search className="h-5 w-5" strokeWidth={2.2} />
-          </button>
         </div>
       </section>
 
       {/* Navigasi bulan */}
-      <section className="mb-4 flex items-center justify-between px-2">
+      <section className="mb-3 flex items-center justify-between px-1">
         <Link
           href={`/kalender?bulan=${sebelumnya}`}
           scroll={false}
           aria-label="Bulan sebelumnya"
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f4f7f5] text-gray-700 hover:bg-gray-200/80 active:scale-90"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200/80 bg-white text-slate-700 hover:bg-slate-50 active:scale-[0.98] transition-colors"
         >
-          <ChevronLeft className="h-4 w-4" strokeWidth={2.5} />
+          <ChevronLeft className="h-4 w-4" strokeWidth={2.2} />
         </Link>
-        <h2 className="text-[17px] font-bold tracking-tight text-slate-800">
+        <h2 className="text-[15px] font-semibold tracking-tight text-slate-900">
           {namaBulanTahun(tb)}
         </h2>
         <Link
           href={`/kalender?bulan=${berikutnya}`}
           scroll={false}
           aria-label="Bulan berikutnya"
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f4f7f5] text-gray-700 hover:bg-gray-200/80 active:scale-90"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200/80 bg-white text-slate-700 hover:bg-slate-50 active:scale-[0.98] transition-colors"
         >
-          <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
+          <ChevronRight className="h-4 w-4" strokeWidth={2.2} />
         </Link>
       </section>
 
       {/* Grid kalender */}
-      <section className="mb-5 px-1" aria-label="Kalender bulanan">
+      <section className="mb-4 rounded-2xl border border-slate-200/80 bg-white p-3 shadow-2xs" aria-label="Kalender bulanan">
         <div className="mb-2 grid grid-cols-7 text-center">
           {HARI_SINGKAT.map((h) => (
-            <span key={h} className="text-[13px] font-medium text-slate-400">
+            <span key={h} className="text-[11.5px] font-semibold text-slate-500">
               {h}
             </span>
           ))}
         </div>
 
-        <div className="grid grid-cols-7 gap-y-1 text-center text-[15px] font-medium text-slate-800">
+        <div className="grid grid-cols-7 gap-y-1 text-center text-[13.5px] font-medium tabular-nums text-slate-800">
           {grid.map((hari, i) => {
             if (hari === null) return <div key={`kosong-${i}`} />;
 
@@ -133,15 +131,15 @@ export default async function KalenderPage({
                 scroll={false}
                 aria-label={`Tanggal ${hari}`}
                 aria-current={dipilih ? "date" : undefined}
-                className="flex h-11 flex-col items-center justify-center"
+                className="flex h-10 flex-col items-center justify-center"
               >
                 <span
-                  className={`flex h-[34px] w-[34px] items-center justify-center rounded-full ${
+                  className={`flex h-7 w-7 items-center justify-center rounded-lg transition-colors ${
                     dipilih
-                      ? "bg-brand-primary font-bold text-white shadow-sm"
+                      ? "bg-brand-primary font-semibold text-white shadow-2xs"
                       : hariIni
-                        ? "font-bold text-brand-primary"
-                        : ""
+                        ? "border border-brand-primary/40 font-semibold text-brand-primary"
+                        : "hover:bg-slate-100"
                   }`}
                 >
                   {hari}
@@ -160,20 +158,20 @@ export default async function KalenderPage({
       {/* Daftar agenda pada tanggal terpilih */}
       <section
         aria-label={judulDaftar}
-        className="mt-1 rounded-3xl border border-slate-100/80 bg-white p-4 pt-3.5 shadow-sm"
+        className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs"
       >
-        <div className="mb-3.5 flex items-center justify-between px-0.5">
-          <h3 className="text-base font-bold tracking-tight text-slate-900">
+        <div className="mb-3 flex items-center justify-between px-0.5">
+          <h3 className="text-[14.5px] font-semibold tracking-tight text-slate-900">
             {judulDaftar}
           </h3>
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-800">
-            <span className="h-2 w-2 rounded-full bg-brand-primary" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
             {agendaTerpilih.length} Agenda
           </span>
         </div>
 
         {agendaTerpilih.length > 0 ? (
-          <div className="space-y-3.5">
+          <div className="space-y-2">
             {agendaTerpilih.map((a) => (
               <AgendaRow key={a.id} agenda={a} />
             ))}

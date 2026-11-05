@@ -103,7 +103,7 @@ export function PenggunaCard({
     startTransition(async () => {
       const res = await kirimUlangInfoWA(pengguna.id);
       if (res.ok) {
-        setPesanSukses("Notifikasi WhatsApp berhasil dikirim ke nomor pengguna!");
+        setPesanSukses("Notifikasi WhatsApp berhasil dikirim ke nomor pengguna.");
         setBukaMenu(false);
       } else {
         setPesanError(res.message ?? "Gagal mengirim pesan WhatsApp");
@@ -127,9 +127,9 @@ export function PenggunaCard({
 
   return (
     <div
-      className={`relative rounded-3xl border bg-white p-4 shadow-sm transition-all ${
+      className={`relative rounded-2xl border bg-white p-4 shadow-2xs transition-colors ${
         pengguna.isActive
-          ? "border-slate-100 hover:border-slate-200"
+          ? "border-slate-200/80 hover:border-slate-300"
           : "border-slate-200/60 bg-slate-50/50 opacity-80"
       }`}
     >
@@ -149,7 +149,7 @@ export function PenggunaCard({
         {/* Avatar & Info Utama */}
         <div className="flex items-center gap-3">
           <div
-            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-[16px] font-extrabold ${warna.bgInitial} ${warna.textInitial}`}
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[15px] font-semibold ${warna.bgInitial} ${warna.textInitial}`}
           >
             {inisial || "P"}
           </div>
@@ -205,11 +205,11 @@ export function PenggunaCard({
                 className="fixed inset-0 z-20"
                 onClick={() => setBukaMenu(false)}
               />
-              <div className="absolute right-0 top-9 z-30 w-48 rounded-2xl border border-slate-100 bg-white py-1.5 shadow-xl">
+              <div className="absolute right-0 top-9 z-30 w-48 rounded-xl border border-slate-200/90 bg-white py-1 shadow-lg">
                 <Link
                   href={`/admin/pengguna/${pengguna.id}`}
                   onClick={() => setBukaMenu(false)}
-                  className="flex items-center gap-2.5 px-3.5 py-2 text-[13px] font-semibold text-slate-700 hover:bg-slate-50"
+                  className="flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                 >
                   <Edit3 className="h-4 w-4 text-slate-400" />
                   Ubah Data
@@ -219,7 +219,7 @@ export function PenggunaCard({
                   type="button"
                   disabled={isPending}
                   onClick={handleKirimInfoWA}
-                  className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-[13px] font-semibold text-brand-primary hover:bg-brand-mint/40 disabled:opacity-50"
+                  className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] font-medium text-brand-primary hover:bg-brand-mint/40 disabled:opacity-50 transition-colors"
                 >
                   <Send className="h-4 w-4 text-brand-primary" />
                   Kirim Info ke WA
@@ -230,7 +230,7 @@ export function PenggunaCard({
                     type="button"
                     disabled={isPending}
                     onClick={handleToggleStatus}
-                    className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-[13px] font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+                    className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
                   >
                     {pengguna.isActive ? (
                       <>
@@ -256,7 +256,7 @@ export function PenggunaCard({
                       setBukaMenu(false);
                       setKonfirmasiHapus(true);
                     }}
-                    className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-[13px] font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50"
+                    className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] font-medium text-red-600 hover:bg-red-50 disabled:opacity-50 transition-colors"
                   >
                     <Trash2 className="h-4 w-4 text-red-500" />
                     Hapus Akun
@@ -302,34 +302,34 @@ export function PenggunaCard({
         konfirmasiHapus &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs animate-in fade-in duration-150"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 p-4 backdrop-blur-2xs"
             onClick={() => {
               if (!isPending) setKonfirmasiHapus(false);
             }}
           >
             <div
-              className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl"
+              className="w-full max-w-sm rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-600">
-                <ShieldAlert className="h-6 w-6" />
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600">
+                <ShieldAlert className="h-5 w-5" />
               </div>
 
-              <h4 className="text-[17px] font-extrabold text-slate-900">
+              <h4 className="text-[16px] font-semibold text-slate-900">
                 Hapus Akun Pengguna?
               </h4>
               <p className="mt-1.5 text-[13px] leading-relaxed text-slate-600">
                 Apakah Anda yakin ingin menghapus akun{" "}
-                <b>{pengguna.fullName}</b> ({pengguna.email})? Tindakan ini tidak
+                <b className="font-semibold">{pengguna.fullName}</b> ({pengguna.email})? Tindakan ini tidak
                 dapat dibatalkan.
               </p>
 
-              <div className="mt-5 flex gap-2.5">
+              <div className="mt-4 flex gap-2">
                 <button
                   type="button"
                   disabled={isPending}
                   onClick={() => setKonfirmasiHapus(false)}
-                  className="flex-1 rounded-full border border-slate-200 py-3 text-[14px] font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+                  className="flex-1 rounded-xl border border-slate-200 py-2.5 text-[13.5px] font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 transition-colors"
                 >
                   Batal
                 </button>
@@ -337,7 +337,7 @@ export function PenggunaCard({
                   type="button"
                   disabled={isPending}
                   onClick={handleHapus}
-                  className="flex-1 rounded-full bg-red-600 py-3 text-[14px] font-bold text-white hover:bg-red-700 disabled:opacity-50"
+                  className="flex-1 rounded-xl bg-red-600 py-2.5 text-[13.5px] font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
                 >
                   {isPending ? "Menghapus..." : "Ya, Hapus"}
                 </button>

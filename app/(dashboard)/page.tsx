@@ -21,8 +21,11 @@ import {
   dateKeyWIB,
   formatTanggalPanjang,
   getNow,
-  salam,
 } from "@/lib/date";
+import {
+  MinangWatermark,
+  DoubleHairlineRule,
+} from "@/components/ui/minang-motif";
 
 export default async function BerandaPage() {
   const now = getNow();
@@ -39,28 +42,17 @@ export default async function BerandaPage() {
 
   return (
     <div className="relative">
-      {/* Latar gradasi hijau lembut di bagian atas */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[300px]"
-        style={{
-          background:
-            "linear-gradient(180deg, #E3F3EA 0%, rgba(247,250,248,0) 100%)",
-        }}
-      />
-
       <div className="relative z-10">
         {/* Header dengan Jam Live */}
-        <header className="flex items-center justify-between px-6 pb-3 pt-6">
-          <div className="flex items-center gap-3">
-            <SipapLogo />
+        <header className="flex items-center justify-between px-5 pb-3 pt-5 border-b border-slate-100">
+          <div className="flex items-center gap-2.5">
+            <SipapLogo className="h-9 w-9" />
             <div className="flex flex-col">
-              <h1 className="text-[19px] font-extrabold leading-none tracking-tight">
+              <h1 className="text-[17px] font-bold leading-none tracking-tight text-slate-900">
                 SIPAP
               </h1>
               <p className="mt-1 text-[11px] font-medium leading-tight text-slate-500">
-                Balai Bahasa
-                <br />
-                Sumatera Barat
+                Balai Bahasa Sumatera Barat
               </p>
             </div>
           </div>
@@ -80,58 +72,103 @@ export default async function BerandaPage() {
           </div>
         </header>
 
-        {/* Sapaan */}
-        <section className="px-6 pb-4 pt-5">
-          <p className="text-[15px] font-medium text-slate-500">{salam(now)},</p>
-          <h2 className="mt-0.5 text-[26px] font-extrabold leading-[1.2] tracking-tight text-slate-900">
-            {profil?.fullName ?? "Pengguna"}
-          </h2>
-          <p className="mt-1.5 text-[13.5px] font-medium text-slate-500">
-            Semoga hari ini berjalan lancar.
-          </p>
+        {/* Konteks Pengguna & Peran */}
+        <section className="px-5 pt-4 pb-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[12px] font-medium text-slate-500">
+                Agenda Kedinasan
+              </p>
+              <h2 className="text-[19px] font-semibold tracking-tight text-slate-900">
+                {profil?.fullName ?? "Pimpinan"}
+              </h2>
+            </div>
+            <span className="rounded-md border border-slate-200/80 bg-slate-50 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+              {profil?.role === "pimpinan"
+                ? "Kepala Balai"
+                : profil?.role === "superadmin"
+                  ? "Super Admin"
+                  : profil?.role === "pemantau"
+                    ? "Ajudan"
+                    : "Operator"}
+            </span>
+          </div>
         </section>
 
-        {/* Kartu ringkasan hari ini dengan jam live */}
+        {/* Kartu Ringkasan Hero: Deep Emerald Heritage + Watermark Minang + Double Rule */}
         <section className="mt-2 px-5">
-          <div className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_8px_25px_-5px_rgba(0,0,0,0.05)]">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
-                  <CalendarDays className="h-4 w-4" />
-                </div>
-                <span className="text-[14.5px] font-bold text-slate-800">
-                  {formatTanggalPanjang(now)}
-                </span>
-              </div>
-              <Link
-                href="/kalender"
-                aria-label="Buka kalender"
-                className="flex h-7 w-7 items-center justify-center rounded-full text-slate-400 hover:bg-slate-50 hover:text-slate-700"
-              >
-                <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
-              </Link>
-            </div>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#063820] via-[#094d2d] to-[#0d5c38] p-4 text-white shadow-xs border border-emerald-950/40">
+            {/* Watermark Ornamen Ukiran Tradisional Minangkabau (image.svg) */}
+            <MinangWatermark
+              opacity={0.13}
+              color="white"
+              className="pointer-events-none absolute inset-0 overflow-hidden"
+            />
 
-            <div className="flex items-center gap-4 pt-3.5">
-              <div className="flex min-w-[72px] flex-col items-center border-r border-slate-200 pr-3">
-                <span className="text-[34px] font-extrabold leading-none tracking-tight">
-                  {tgl.hari}
-                </span>
-                <span className="mt-1 text-[12px] font-semibold text-slate-500">
-                  {tgl.bulan} • {tgl.namaHari}
-                </span>
+            <div className="relative z-10">
+              {/* Baris Atas: Tanggal Panjang & Tombol Pintasan Kalender */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-emerald-200 border border-white/10">
+                    <CalendarDays className="h-3.5 w-3.5" />
+                  </div>
+                  <span className="text-[13px] font-medium text-white/95 tracking-wide">
+                    {formatTanggalPanjang(now)}
+                  </span>
+                </div>
+                <Link
+                  href="/kalender"
+                  aria-label="Buka kalender"
+                  className="flex items-center gap-1 rounded-lg bg-white/10 px-2.5 py-1 text-[11.5px] font-medium text-emerald-100 hover:bg-white/15 hover:text-white transition-colors border border-white/10"
+                >
+                  <span>Kalender</span>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
-              <div className="flex flex-1 items-center gap-3 rounded-2xl border border-[#E1F2E6] bg-brand-mint px-3.5 py-3">
-                <CalendarDays className="h-6 w-6 shrink-0 text-brand-primary" />
-                <div className="flex flex-col text-[14px] font-bold leading-tight">
-                  {hariIni.length > 0 ? (
-                    <>
-                      <span>{hariIni.length} Agenda</span>
-                      <span>Hari Ini</span>
-                    </>
-                  ) : (
-                    <span>Tidak ada agenda hari ini</span>
-                  )}
+
+              {/* Garis Ganda Naskah Dinas (*Double-Hairline Rule*) */}
+              <DoubleHairlineRule variant="light" className="my-3.5" />
+
+              {/* Baris Bawah: Angka Tanggal & Ringkasan Agenda Hari Ini */}
+              <div className="flex items-center gap-3">
+                <div className="flex min-w-[70px] flex-col items-center border-r border-white/15 pr-3.5">
+                  <span className="text-[32px] font-semibold leading-none tracking-tight tabular-nums text-white">
+                    {tgl.hari}
+                  </span>
+                  <span className="mt-1.5 text-[11px] font-medium text-emerald-200/90 uppercase tracking-wider">
+                    {tgl.bulan} · {tgl.namaHari}
+                  </span>
+                </div>
+
+                <div className="flex flex-1 items-center justify-between gap-2.5 rounded-xl bg-white/10 border border-white/15 px-3.5 py-2.5 backdrop-blur-[2px]">
+                  <div className="flex flex-col">
+                    {hariIni.length > 0 ? (
+                      <>
+                        <span className="text-[14px] font-semibold text-white leading-tight">
+                          {hariIni.length} Agenda Terjadwal
+                        </span>
+                        <span className="text-[11.5px] text-emerald-200/80 font-normal">
+                          Hari ini di Balai Bahasa
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-[13.5px] font-medium text-white/95 leading-tight">
+                          Tidak ada agenda
+                        </span>
+                        <span className="text-[11px] text-emerald-200/75 font-normal">
+                          Jadwal pimpinan kosong hari ini
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <Link
+                    href="/agenda"
+                    aria-label="Lihat daftar agenda"
+                    className="shrink-0 flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/25 text-emerald-100 hover:bg-emerald-500/35 hover:text-white transition-colors border border-emerald-400/25"
+                  >
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -139,41 +176,41 @@ export default async function BerandaPage() {
         </section>
 
         {bolehKonfirmasi && menunggu.length > 0 && (
-          <section className="mt-4 px-5">
+          <section className="mt-3 px-5">
             <Link
               href="/agenda/antrean-konfirmasi"
-              className="flex items-center gap-3 rounded-2xl border border-[#FEDDC3] bg-brand-amber-light px-4 py-3.5"
+              className="flex items-center gap-2.5 rounded-xl border border-amber-200 bg-amber-50/70 px-3.5 py-2.5 text-amber-900 transition-colors hover:bg-amber-50"
             >
-              <BellRing className="h-5 w-5 shrink-0 text-[#EA580C]" />
-              <span className="flex-1 text-[13.5px] font-bold text-[#C2410C]">
-                {menunggu.length} agenda belum dikonfirmasi
+              <BellRing className="h-4 w-4 shrink-0 text-amber-700" />
+              <span className="flex-1 text-[13px] font-medium text-amber-900">
+                <strong className="font-semibold">{menunggu.length} agenda</strong> perlu konfirmasi kehadiran
               </span>
-              <ChevronRight className="h-4 w-4 text-[#EA580C]" />
+              <ChevronRight className="h-4 w-4 text-amber-700" />
             </Link>
           </section>
         )}
 
         {/* Agenda terdekat */}
-        <section className="mt-6 px-5">
-          <div className="mb-3 flex items-center justify-between px-1">
-            <h3 className="text-[18px] font-bold tracking-tight">
+        <section className="mt-5 px-5">
+          <div className="mb-2.5 flex items-center justify-between px-0.5">
+            <h3 className="text-[15px] font-semibold tracking-tight text-slate-900">
               Agenda Terdekat
             </h3>
             <Link
               href="/agenda"
-              className="inline-flex items-center gap-1 text-[13px] font-bold text-brand-primary hover:opacity-80"
+              className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-brand-primary hover:text-brand-dark transition-colors"
             >
-              Lihat Semua <ArrowRight className="h-4 w-4" />
+              Lihat Semua <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {terdekat.length > 0 ? (
               terdekat.map((a) => (
                 <AgendaCard key={a.id} agenda={a} bolehKelola={bolehKelola} />
               ))
             ) : (
-              <p className="rounded-2xl bg-white p-4 text-sm text-slate-500">
+              <p className="rounded-xl border border-slate-200/80 bg-white p-4 text-sm text-slate-500 text-center">
                 Belum ada agenda mendatang.
               </p>
             )}

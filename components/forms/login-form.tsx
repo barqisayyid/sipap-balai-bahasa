@@ -44,7 +44,7 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
               required
               autoComplete="username"
               placeholder="emailanda@mail.com"
-              className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-[14px] text-slate-900 placeholder:text-slate-400 transition-all focus:border-[#0A5C36] focus:outline-none focus:ring-2 focus:ring-[#0A5C36]/15"
+              className="w-full rounded-xl border border-slate-200/90 bg-white py-2.5 pl-11 pr-4 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary/20"
             />
           </div>
         </div>
@@ -68,7 +68,7 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
               required
               autoComplete="current-password"
               placeholder="••••••••••••"
-              className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-11 text-[14px] text-slate-900 placeholder:text-slate-400 transition-all focus:border-[#0A5C36] focus:outline-none focus:ring-2 focus:ring-[#0A5C36]/15"
+              className="w-full rounded-xl border border-slate-200/90 bg-white py-2.5 pl-11 pr-11 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary/20"
             />
             <button
               type="button"
@@ -94,7 +94,7 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
               type="checkbox"
               name="remember"
               defaultChecked
-              className="h-4 w-4 rounded border-slate-300 text-[#0A5C36] accent-[#0A5C36] focus:ring-[#0A5C36]/20"
+              className="h-4 w-4 rounded border-slate-300 text-brand-primary accent-brand-primary focus:ring-brand-primary/20"
             />
             <span>Ingat saya</span>
           </label>
@@ -102,7 +102,7 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
           <button
             type="button"
             onClick={() => setBukaBantuan(true)}
-            className="font-medium text-[#0A5C36] transition-colors hover:text-[#074728] hover:underline"
+            className="font-medium text-brand-primary transition-colors hover:text-brand-dark hover:underline"
           >
             Lupa kata sandi?
           </button>
@@ -123,7 +123,7 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
         <button
           type="submit"
           disabled={pending}
-          className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#0A5C36] text-[15px] font-bold text-white shadow-md shadow-[#0A5C36]/20 transition-all hover:bg-[#074728] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand-primary text-[14px] font-semibold text-white shadow-2xs transition-colors hover:bg-brand-dark active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {pending && <Loader2 className="h-4 w-4 animate-spin" />}
           {pending ? "Memeriksa..." : "Masuk"}
@@ -135,23 +135,23 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs animate-in fade-in duration-150"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 p-4 backdrop-blur-2xs"
         >
-          <div className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl">
+          <div className="w-full max-w-sm rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xl">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2 text-slate-800">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-[#0A5C36]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-brand-primary">
                   <Lock className="h-4 w-4" />
                 </span>
-                <h3 className="text-[16px] font-bold">Lupa Kata Sandi</h3>
+                <h3 className="text-[15px] font-semibold">Lupa Kata Sandi</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setBukaBantuan(false)}
-                className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
                 aria-label="Tutup dialog"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
 
@@ -160,7 +160,7 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
                 Demi menjaga keamanan data dan agenda pimpinan, pemulihan kata
                 sandi akun kedinasan SIPAP dikelola secara terpusat.
               </p>
-              <div className="rounded-xl bg-slate-50 p-3 text-[12px] text-slate-700">
+              <div className="rounded-xl border border-slate-200/70 bg-slate-50 p-3 text-[12px] text-slate-700">
                 <p className="font-semibold text-slate-900">
                   Langkah Pemulihan:
                 </p>
@@ -175,7 +175,7 @@ export function LoginForm({ pesanAwal }: { pesanAwal?: string }) {
             <button
               type="button"
               onClick={() => setBukaBantuan(false)}
-              className="mt-5 w-full rounded-full bg-[#0A5C36] py-2.5 text-[14px] font-bold text-white transition-colors hover:bg-[#074728]"
+              className="mt-4 w-full rounded-xl bg-brand-primary py-2.5 text-[13.5px] font-medium text-white transition-colors hover:bg-brand-dark"
             >
               Mengerti
             </button>

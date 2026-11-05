@@ -33,18 +33,18 @@ export function AgendaCard({
 
   return (
     <div
-      className={`group relative rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs transition-colors hover:border-slate-300 hover:shadow-sm ${
+      className={`group relative rounded-xl border border-slate-200/90 bg-white p-3.5 shadow-2xs transition-colors hover:border-slate-300 ${
         menuBuka ? "z-30" : "z-0"
       }`}
     >
       {/* Baris Atas: Waktu + Status + Menu Titik Tiga */}
-      <div className="flex items-center justify-between gap-2 pb-2.5">
+      <div className="flex items-center justify-between gap-2 pb-2">
         <Link
           href={`/agenda/${agenda.id}`}
-          className="flex min-w-0 flex-1 items-center gap-1.5 text-[12px] font-semibold text-slate-500 transition-colors hover:text-slate-800"
+          className="flex min-w-0 flex-1 items-center gap-1.5 text-[12px] font-medium text-slate-600 transition-colors hover:text-slate-900"
         >
-          <Clock className="h-3.5 w-3.5 shrink-0 text-slate-400" />
-          <span className="truncate">{teksWaktu}</span>
+          <Clock className="h-3.5 w-3.5 shrink-0 text-slate-500" />
+          <span className="truncate tabular-nums font-semibold">{teksWaktu}</span>
         </Link>
 
         <div className="flex shrink-0 items-center gap-1.5">
@@ -64,17 +64,17 @@ export function AgendaCard({
 
       {/* Konten Utama: Perihal & Lokasi */}
       <Link href={`/agenda/${agenda.id}`} className="block space-y-1.5 pt-0.5">
-        <h3 className="text-[15px] font-bold leading-snug text-slate-900 transition-colors group-hover:text-brand-primary line-clamp-2">
+        <h3 className="text-[14.5px] font-semibold leading-snug text-slate-900 transition-colors group-hover:text-brand-primary line-clamp-2 [text-wrap:pretty]">
           {agenda.perihal}
         </h3>
 
-        <div className="flex items-center gap-1.5 text-[12.5px] text-slate-500">
-          <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" />
-          <span className="truncate text-slate-600">{agenda.lokasi}</span>
+        <div className="flex items-center gap-1.5 text-[12px] text-slate-600">
+          <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-500" />
+          <span className="truncate text-slate-700">{agenda.lokasi}</span>
           {agenda.pengirim && (
             <>
-              <span className="text-slate-300">·</span>
-              <span className="truncate text-slate-400">{agenda.pengirim}</span>
+              <span className="text-slate-400">·</span>
+              <span className="truncate text-slate-500">{agenda.pengirim}</span>
             </>
           )}
         </div>

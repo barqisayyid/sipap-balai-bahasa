@@ -38,27 +38,29 @@ const PESAN = {
 
 function Ringkasan({ agenda }: { agenda: AgendaToken }) {
   return (
-    <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_8px_25px_-5px_rgba(0,0,0,0.05)]">
-      <h2 className="text-[21px] font-extrabold leading-snug tracking-tight text-[#091b29]">
+    <div className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
+      <h2 className="text-[17px] font-semibold leading-snug tracking-tight text-slate-900">
         {agenda.perihal}
       </h2>
-      <div className="mt-4 space-y-3 text-[15px] font-semibold text-slate-700">
-        <p className="flex items-start gap-3">
-          <CalendarDays className="mt-0.5 h-5 w-5 shrink-0 text-slate-400" />
-          {formatTanggalPanjang(agenda.waktuMulai)}
+      <div className="mt-4 space-y-2.5 text-[13.5px] font-medium text-slate-700 border-t border-slate-100 pt-3">
+        <p className="flex items-start gap-2.5">
+          <CalendarDays className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+          <span>{formatTanggalPanjang(agenda.waktuMulai)}</span>
         </p>
-        <p className="flex items-start gap-3">
-          <Clock className="mt-0.5 h-5 w-5 shrink-0 text-slate-400" />
-          {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)}
+        <p className="flex items-start gap-2.5">
+          <Clock className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+          <span className="font-semibold tabular-nums text-slate-700">
+            {formatRentangJam(agenda.waktuMulai, agenda.waktuSelesai)} WIB
+          </span>
         </p>
-        <p className="flex items-start gap-3">
-          <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-slate-400" />
-          {agenda.lokasi}
+        <p className="flex items-start gap-2.5">
+          <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+          <span>{agenda.lokasi}</span>
         </p>
         {agenda.pakaian && (
-          <p className="flex items-start gap-3">
-            <Shirt className="mt-0.5 h-5 w-5 shrink-0 text-slate-400" />
-            {agenda.pakaian}
+          <p className="flex items-start gap-2.5">
+            <Shirt className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
+            <span>Pakaian: {agenda.pakaian}</span>
           </p>
         )}
       </div>
@@ -85,25 +87,19 @@ export default async function KonfirmasiPage({
 
   const utama = sp.action === "disposisi" ? "disposisi" : "hadir";
   const gayaUtama =
-    "flex w-full items-center justify-center rounded-full bg-brand-primary py-4 text-[17px] font-bold text-white shadow-[0_8px_20px_rgba(11,102,69,0.3)] transition-all hover:bg-brand-dark active:scale-[0.98]";
+    "flex w-full items-center justify-center rounded-xl bg-brand-primary py-3.5 text-[14.5px] font-semibold text-white shadow-2xs transition-colors hover:bg-brand-dark active:scale-[0.98]";
   const gayaKedua =
-    "flex w-full items-center justify-center rounded-full border-[1.5px] border-brand-primary py-4 text-[17px] font-bold text-brand-primary transition-all hover:bg-brand-primary/5 active:scale-[0.98]";
+    "flex w-full items-center justify-center rounded-xl border border-slate-200/90 bg-white py-3.5 text-[14.5px] font-semibold text-slate-700 transition-colors hover:bg-slate-50 active:scale-[0.98]";
 
   return (
-    <div
-      className="flex min-h-dvh flex-col px-6 py-8"
-      style={{
-        background:
-          "linear-gradient(180deg, #E3F3EA 0%, rgba(247,250,248,0) 55%)",
-      }}
-    >
-      <header className="mb-6 flex items-center gap-3">
-        <SipapLogo />
+    <div className="flex min-h-dvh flex-col bg-white px-5 py-6">
+      <header className="mb-5 flex items-center gap-2.5 border-b border-slate-100 pb-3">
+        <SipapLogo className="h-9 w-9" />
         <div>
-          <p className="text-[19px] font-extrabold leading-none tracking-tight">
+          <p className="text-[16px] font-bold leading-none tracking-tight text-slate-900">
             SIPAP
           </p>
-          <p className="mt-1 text-[11px] font-medium text-slate-500">
+          <p className="mt-1 text-[11px] text-slate-500">
             Balai Bahasa Sumatera Barat
           </p>
         </div>
@@ -111,12 +107,12 @@ export default async function KonfirmasiPage({
 
       {hasil.ok ? (
         <>
-          <p className="mb-3 text-[15px] font-semibold text-slate-600">
-            Mohon konfirmasi kehadiran Bapak:
+          <p className="mb-3 text-[13.5px] font-medium text-slate-600">
+            Mohon konfirmasi kehadiran Kepala Balai:
           </p>
           <Ringkasan agenda={hasil.agenda} />
 
-          <form action={konfirmasiQuick} className="mt-6 space-y-3">
+          <form action={konfirmasiQuick} className="mt-5 space-y-2.5">
             <input type="hidden" name="token" value={token} />
             <button
               type="submit"
@@ -135,24 +131,24 @@ export default async function KonfirmasiPage({
               Disposisikan
             </button>
           </form>
-          <p className="mt-4 text-center text-[12px] text-slate-400">
-            Tautan ini hanya berlaku satu kali.
+          <p className="mt-3.5 text-center text-[11.5px] text-slate-400">
+            Tautan konfirmasi instan ini hanya berlaku satu kali.
           </p>
         </>
       ) : berhasil && hasil.agenda ? (
         <>
-          <div className="mb-5 flex flex-col items-center text-center">
+          <div className="mb-4 flex flex-col items-center text-center">
             <CheckCircle2
-              className="h-16 w-16 text-brand-primary"
+              className="h-12 w-12 text-brand-primary"
               strokeWidth={1.8}
             />
-            <h1 className="mt-3 text-[22px] font-extrabold tracking-tight">
+            <h1 className="mt-2.5 text-[18px] font-semibold tracking-tight text-slate-900">
               {hasil.agenda.status === "Hadir"
-                ? "Kehadiran dikonfirmasi"
-                : "Agenda didisposisikan"}
+                ? "Kehadiran Dikonfirmasi"
+                : "Agenda Didisposisikan"}
             </h1>
-            <p className="mt-1 text-[14px] text-slate-500">
-              Status agenda di SIPAP sudah diperbarui.
+            <p className="mt-1 text-[13px] text-slate-500">
+              Status agenda di sistem SIPAP sudah diperbarui.
             </p>
           </div>
           <Ringkasan agenda={hasil.agenda} />
@@ -160,19 +156,19 @@ export default async function KonfirmasiPage({
       ) : (
         !hasil.ok && (
           <>
-            <div className="mb-5 flex flex-col items-center text-center">
+            <div className="mb-4 flex flex-col items-center text-center">
               <AlertTriangle
-                className="h-14 w-14 text-amber-500"
+                className="h-12 w-12 text-amber-500"
                 strokeWidth={1.8}
               />
-              <h1 className="mt-3 text-[21px] font-extrabold tracking-tight">
+              <h1 className="mt-2.5 text-[18px] font-semibold tracking-tight text-slate-900">
                 {PESAN[hasil.alasan].judul}
               </h1>
-              <p className="mt-1 max-w-[320px] text-[14px] leading-snug text-slate-500">
+              <p className="mt-1 max-w-[320px] text-[13px] leading-snug text-slate-500">
                 {PESAN[hasil.alasan].isi}
               </p>
               {hasil.alasan === "sudah_dipakai" && hasil.agenda && (
-                <p className="mt-2 text-[14px] font-bold text-brand-primary">
+                <p className="mt-2 text-[13px] font-medium text-brand-primary">
                   Status saat ini: {hasil.agenda.status}
                 </p>
               )}

@@ -21,10 +21,12 @@ export default async function AgendaBaruPage() {
   );
 
   return (
-    <div className="px-5 pb-0 pt-5">
-      <header className="mb-5 flex items-center gap-3">
+    <div className="bg-white min-h-dvh px-5 pb-8 pt-4">
+      <header className="mb-4 flex items-center gap-2.5 border-b border-slate-100 pb-3">
         <BackButton fallback="/agenda" />
-        <h1 className="text-xl font-bold tracking-tight">Agenda Baru</h1>
+        <h1 className="text-[17px] font-semibold tracking-tight text-slate-900">
+          Tambah Agenda Baru
+        </h1>
       </header>
 
       <AgendaForm agendaAktif={ringkas} tanggalDefault={dateKeyWIB(getNow())} />

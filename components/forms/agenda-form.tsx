@@ -16,7 +16,7 @@ import { dateKeyWIB, formatJamInput, waktuWIB } from "@/lib/date";
 import type { Agenda, AgendaRingkas } from "@/lib/types";
 
 const inputCls =
-  "w-full min-w-0 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-[15px] text-slate-900 placeholder:text-slate-400 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/20";
+  "w-full min-w-0 rounded-xl border border-slate-200/90 bg-white px-3.5 py-2.5 text-base sm:text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-primary focus:outline-none focus:ring-1 focus:ring-brand-primary/20 transition-colors";
 
 function Field({
   label,
@@ -108,8 +108,8 @@ export function AgendaForm({
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Kolom wajib */}
-      <section className="space-y-4 rounded-3xl border border-slate-100 bg-white p-5 shadow-sm">
-        <h2 className="text-[15px] font-extrabold tracking-tight">
+      <section className="space-y-3.5 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs">
+        <h2 className="text-[14.5px] font-semibold tracking-tight text-slate-900">
           {isEdit ? "Informasi Utama (Diperbarui)" : "Informasi Utama"}
         </h2>
 
@@ -187,12 +187,12 @@ export function AgendaForm({
       </section>
 
       {/* Kolom opsional */}
-      <section className="space-y-4 rounded-3xl border border-slate-100 bg-white p-5 shadow-sm">
+      <section className="space-y-3.5 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs">
         <div>
-          <h2 className="text-[15px] font-extrabold tracking-tight">
+          <h2 className="text-[14.5px] font-semibold tracking-tight text-slate-900">
             Informasi Tambahan
           </h2>
-          <p className="mt-0.5 text-xs text-slate-400">
+          <p className="mt-0.5 text-xs text-slate-500">
             Opsional. Boleh dilengkapi nanti.
           </p>
         </div>
@@ -272,8 +272,8 @@ export function AgendaForm({
 
       {/* Bar tombol */}
       <div
-        className="sticky bottom-0 -mx-5 border-t border-slate-100 bg-white/95 px-5 pt-3 backdrop-blur"
-        style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+        className="sticky bottom-0 -mx-5 border-t border-slate-200/80 bg-white/95 px-5 pt-3 backdrop-blur-xs"
+        style={{ paddingBottom: "max(0.6rem, env(safe-area-inset-bottom))" }}
       >
         {err.form && (
           <p className="mb-2 text-xs font-semibold text-red-600">{err.form}</p>
@@ -281,7 +281,7 @@ export function AgendaForm({
         <button
           type="submit"
           disabled={pending || terkunci}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-brand-primary py-3.5 text-[15px] font-bold text-white transition-all hover:bg-brand-dark active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand-primary py-3 text-[14.5px] font-semibold text-white shadow-2xs transition-colors hover:bg-brand-dark active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {pending && <Loader2 className="h-4 w-4 animate-spin" />}
           {pending
