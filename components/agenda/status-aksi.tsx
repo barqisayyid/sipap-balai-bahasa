@@ -41,6 +41,7 @@ export function StatusAksi({
   const [error, setError] = useState<string | null>(null);
 
   function pilih(status: StatusAgenda) {
+    if (pending) return;
     const o = OPSI[status];
     if (o.konfirmasi && !window.confirm(o.konfirmasi)) return;
     setError(null);

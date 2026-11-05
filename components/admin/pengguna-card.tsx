@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useEffect, useTransition } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   Edit3,
@@ -64,6 +65,11 @@ export function PenggunaCard({
   const [isPending, startTransition] = useTransition();
   const [pesanError, setPesanError] = useState<string | null>(null);
   const [pesanSukses, setPesanSukses] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isDiriSendiri = pengguna.id === currentUserId;
   const inisial = pengguna.fullName
@@ -244,7 +250,9 @@ export function PenggunaCard({
                   <button
                     type="button"
                     disabled={isPending}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       setBukaMenu(false);
                       setKonfirmasiHapus(true);
                     }}
@@ -290,43 +298,54 @@ export function PenggunaCard({
       </div>
 
       {/* Modal Dialog Konfirmasi Hapus */}
-      {konfirmasiHapus && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl">
-            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-600">
-              <ShieldAlert className="h-6 w-6" />
-            </div>
+      {mounted &&
+        konfirmasiHapus &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs animate-in fade-in duration-150"
+            onClick={() => {
+              if (!isPending) setKonfirmasiHapus(false);
+            }}
+          >
+            <div
+              className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-600">
+                <ShieldAlert className="h-6 w-6" />
+              </div>
 
-            <h4 className="text-[17px] font-extrabold text-slate-900">
-              Hapus Akun Pengguna?
-            </h4>
-            <p className="mt-1.5 text-[13px] leading-relaxed text-slate-600">
-              Apakah Anda yakin ingin menghapus akun{" "}
-              <b>{pengguna.fullName}</b> ({pengguna.email})? Tindakan ini tidak
-              dapat dibatalkan.
-            </p>
+              <h4 className="text-[17px] font-extrabold text-slate-900">
+                Hapus Akun Pengguna?
+              </h4>
+              <p className="mt-1.5 text-[13px] leading-relaxed text-slate-600">
+                Apakah Anda yakin ingin menghapus akun{" "}
+                <b>{pengguna.fullName}</b> ({pengguna.email})? Tindakan ini tidak
+                dapat dibatalkan.
+              </p>
 
-            <div className="mt-5 flex gap-2.5">
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={() => setKonfirmasiHapus(false)}
-                className="flex-1 rounded-full border border-slate-200 py-3 text-[14px] font-bold text-slate-700 hover:bg-slate-50"
-              >
-                Batal
-              </button>
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={handleHapus}
-                className="flex-1 rounded-full bg-red-600 py-3 text-[14px] font-bold text-white hover:bg-red-700 disabled:opacity-50"
-              >
-                {isPending ? "Menghapus..." : "Ya, Hapus"}
-              </button>
+              <div className="mt-5 flex gap-2.5">
+                <button
+                  type="button"
+                  disabled={isPending}
+                  onClick={() => setKonfirmasiHapus(false)}
+                  className="flex-1 rounded-full border border-slate-200 py-3 text-[14px] font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  disabled={isPending}
+                  onClick={handleHapus}
+                  className="flex-1 rounded-full bg-red-600 py-3 text-[14px] font-bold text-white hover:bg-red-700 disabled:opacity-50"
+                >
+                  {isPending ? "Menghapus..." : "Ya, Hapus"}
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
